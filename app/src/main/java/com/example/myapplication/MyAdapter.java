@@ -131,17 +131,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, final int position) {
-        ///System.out.println(dataList.get(position).getResult());
         holder.txtTitle.setText(dataList.get(position).getCountry());
-        // holder.txtTitle.setText(dataList.get(position).getName());
-        holder.txtDesc.setText(dataList.get(position).getDate());
-        //holder.coverImage.setImageBitmap(dataList.get(position).getFlagBitmap());
-        //holder.coverImage.setImageBitmap(doInBackground(dataList.get(position).getFlag()));
+        holder.txtDesc.setText(dataList.get(position).getDate_from());
         picasso.load(dataList.get(position).getFlag())
                 .placeholder((R.drawable.ic_launcher_background))
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.coverImage);
-        //picasso.load(dataList.get(position).getFlag()).into(holder.coverImage);
     }
 
     protected Bitmap doInBackground(String url){

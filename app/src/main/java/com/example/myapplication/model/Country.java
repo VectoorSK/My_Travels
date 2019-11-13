@@ -18,18 +18,21 @@ public class Country {
     private String country;
     @SerializedName("flag")
     private String flag;
-    @SerializedName("date")
-    private String date;
+    @SerializedName("from")
+    private String date_from;
+    @SerializedName("to")
+    private String date_to;
     @SerializedName("desc")
     private String desc;
     @SerializedName("steps")
     private String steps;
 
-    public Country(Integer id, String country, String flag, String date, String desc, String steps) {
+    public Country(Integer id, String country, String flag, String date_from, String date_to, String desc, String steps) {
         this.id = id;
         this.country = country;
         this.flag = flag;
-        this.date = date;
+        this.date_from = date_from;
+        this.date_to = date_to;
         this.desc = desc;
         this.steps = steps;
     }
@@ -54,31 +57,24 @@ public class Country {
         return flag;
     }
 
-    public Bitmap getFlagBitmap() {
-        try {
-            URL url = new URL(flag);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            // Log exception
-            return null;
-        }
-    }
-
     public void setFlag(String flag) {
         this.flag = flag;
     }
 
-    public String getDate() {
-        return date;
+    public String getDate_from() {
+        return date_from;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate_from(String date_from) {
+        this.date_from = date_from;
+    }
+
+    public String getDate_to() {
+        return date_to;
+    }
+
+    public void setDate_to(String date_to) {
+        this.date_to = date_to;
     }
 
     public String getDesc() {
