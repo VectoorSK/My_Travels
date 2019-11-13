@@ -26,8 +26,10 @@ public class Country {
     private String desc;
     @SerializedName("steps")
     private String steps;
+    //@SerializedName("steps_array")
+    //private String[] steps_array;
 
-    public Country(Integer id, String country, String flag, String date_from, String date_to, String desc, String steps) {
+    public Country(Integer id, String country, String flag, String date_from, String date_to, String desc, String steps/*, String[] steps_array*/) {
         this.id = id;
         this.country = country;
         this.flag = flag;
@@ -35,6 +37,7 @@ public class Country {
         this.date_to = date_to;
         this.desc = desc;
         this.steps = steps;
+        //this.steps_array = steps_array;
     }
 
     public Integer getId() {
@@ -92,4 +95,12 @@ public class Country {
     public void setSteps(String steps) {
         this.steps = steps;
     }
+
+    /*public String[] getSteps_array() {
+        return steps_array;
+    }
+
+    public void setSteps_array(String[] steps_array) {
+        this.steps_array = steps_array;
+    }*/
 }
