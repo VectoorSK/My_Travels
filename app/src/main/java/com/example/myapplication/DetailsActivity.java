@@ -12,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.model.Country;
+import com.example.myapplication.model.Step;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,11 +68,21 @@ public class DetailsActivity extends AppCompatActivity {
         }
         steps = steps.substring(0, steps.length() - 4);
         stepsView.setText(steps);
-        List<String> stepsList = Arrays.asList( stepsArr );
+
+        //List<Step> stepsList = ((List<Step>) getIntent().getExtras().getSerializable("steps_array"));
+        //List<String> stepsList = Arrays.asList( stepsArr );
+        List<Step> stepsList = new ArrayList<>();
+        int nb_steps = getIntent().getIntExtra("nb_steps", 0);
+        for (int i = 0; i < nb_steps; i++) {
+            String curr_city = getIntent().getStringExtra("city" + i);
+            String curr_img = getIntent().getStringExtra("img" + i);
+            Step curr_step = new Step(curr_city, curr_img);
+            stepsList.add(curr_step);
+        }
         generateSteps(stepsList);
     }
 
-    private void generateSteps(List<String> list) {
+    private void generateSteps(List<Step> list) {
         recyclerView = findViewById(R.id.step_recycler_view);
         adapter = new StepsAdapter(this, list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DetailsActivity.this);

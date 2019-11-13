@@ -20,16 +20,17 @@ import com.example.myapplication.model.Country;
 import com.example.myapplication.model.Pokemon;
 import com.example.myapplication.model.RetroPhoto;
 import com.example.myapplication.model.RetroPokemon;
+import com.example.myapplication.model.Step;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder> {
 
-    private List<String> dataList;
+    private List<Step> dataList;
     private Context context;
     private Picasso picasso;
 
-    public StepsAdapter(Context context, List<String> dataList) {
+    public StepsAdapter(Context context, List<Step> dataList) {
         this.context = context;
         this.dataList = dataList;
 
@@ -66,12 +67,12 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
 
     @Override
     public void onBindViewHolder(StepsViewHolder holder, final int position) {
-        holder.txtTitle.setText(dataList.get(position));
+        holder.txtTitle.setText(dataList.get(position).getCity());
         //holder.txtDesc.setText(dataList.get(position));
-        //picasso.load(dataList.get(position).getFlag())
-        //        .placeholder((R.drawable.ic_launcher_background))
-        //        .error(R.drawable.ic_launcher_background)
-        //        .into(holder.coverImage);
+        picasso.load(dataList.get(position).getImg())
+                .placeholder((R.drawable.ic_launcher_background))
+                .error(R.drawable.ic_launcher_background)
+                .into(holder.coverImage);
     }
 
     @Override

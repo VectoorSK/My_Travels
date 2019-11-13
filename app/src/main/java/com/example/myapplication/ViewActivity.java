@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +16,11 @@ import com.example.myapplication.model.Country;
 import com.example.myapplication.model.Pokemon;
 import com.example.myapplication.model.RetroPhoto;
 import com.example.myapplication.model.RetroPokemon;
+import com.example.myapplication.model.Step;
 import com.example.myapplication.network.GetDataService;
 import com.example.myapplication.network.RetrofitClientInstance;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,8 +57,6 @@ public class ViewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Country>> call, Throwable t) {
-                System.out.println("vkhvgrglggigii");
-                System.out.println(t);
                 progressDialog.dismiss();
                 Toast.makeText(ViewActivity.this, "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
@@ -100,6 +101,14 @@ public class ViewActivity extends AppCompatActivity {
         detailsIntent.putExtra("to", country.getDate_to());
         detailsIntent.putExtra("desc", country.getDesc());
         detailsIntent.putExtra("steps", country.getSteps());
+        //detailsIntent.putExtra("steps_array", (Serializable) country.getSteps_array());
+        int i = 0;
+        for (Step step: country.getSteps_array()) {
+            detailsIntent.putExtra("city" + i, step.getCity());
+            detailsIntent.putExtra("img" + i, step.getImg());
+            i++;
+        }
+        detailsIntent.putExtra("nb_steps", i);
 
         startActivity(detailsIntent);
     }
