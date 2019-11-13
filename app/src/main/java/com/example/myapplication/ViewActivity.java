@@ -61,7 +61,6 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     //Method to generate List of data using RecyclerView with custom adapter
-    // private void generateDataList(final List<RetroPhoto> list) {
     private void generateDataList(final List<Country> list) {
         recyclerView = findViewById(R.id.my_recycler_view);
         adapter = new MyAdapter(this, list);

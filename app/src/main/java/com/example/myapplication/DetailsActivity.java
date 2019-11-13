@@ -1,16 +1,27 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myapplication.model.Country;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class DetailsActivity extends AppCompatActivity {
+
+    private StepsAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,5 +66,15 @@ public class DetailsActivity extends AppCompatActivity {
         }
         steps = steps.substring(0, steps.length() - 4);
         stepsView.setText(steps);
+        List<String> stepsList = Arrays.asList( stepsArr );
+        generateSteps(stepsList);
+    }
+
+    private void generateSteps(List<String> list) {
+        recyclerView = findViewById(R.id.step_recycler_view);
+        adapter = new StepsAdapter(this, list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DetailsActivity.this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 }

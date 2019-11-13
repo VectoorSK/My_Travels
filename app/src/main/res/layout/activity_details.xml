@@ -21,14 +21,14 @@
     <ImageView
         android:id="@+id/det_flag"
         android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginTop="16dp"
         android:contentDescription="flag"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/det_name"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/det_date"
@@ -44,7 +44,7 @@
     <TextView
         android:id="@+id/det_desc"
         android:layout_width="350dp"
-        android:layout_height="100dp"
+        android:layout_height="75dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,11 +55,20 @@
     <TextView
         android:id="@+id/det_steps"
         android:layout_width="350dp"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/det_desc" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/step_recycler_view"
+        android:layout_width="350dp"
+        android:layout_height="220dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/det_steps" />
 </androidx.constraintlayout.widget.ConstraintLayout>

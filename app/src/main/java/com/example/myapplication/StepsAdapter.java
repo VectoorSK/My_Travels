@@ -23,13 +23,13 @@ import com.example.myapplication.model.RetroPokemon;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> {
+public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder> {
 
-    private List<Country> dataList;
+    private List<String> dataList;
     private Context context;
     private Picasso picasso;
 
-    public MyAdapter(Context context, List<Country> dataList) {
+    public StepsAdapter(Context context, List<String> dataList) {
         this.context = context;
         this.dataList = dataList;
 
@@ -38,7 +38,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
         picasso = builder.build();
     }
 
-    class CustomViewHolder extends RecyclerView.ViewHolder {
+    class StepsViewHolder extends RecyclerView.ViewHolder {
 
         public final View mView;
 
@@ -46,32 +46,32 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
         public TextView txtDesc;
         public ImageView coverImage;
 
-        public CustomViewHolder(View itemView) {
+        public StepsViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
 
-            txtTitle = (TextView) mView.findViewById(R.id.title);
-            txtDesc = (TextView) mView.findViewById(R.id.description);
-            coverImage = (ImageView) mView.findViewById(R.id.icon);
+            txtTitle = (TextView) mView.findViewById(R.id.steps_title);
+            txtDesc = (TextView) mView.findViewById(R.id.steps_description);
+            coverImage = (ImageView) mView.findViewById(R.id.steps_icon);
         }
     }
 
     @Override
-    public MyAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StepsAdapter.StepsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.row_layout, parent, false);
-        CustomViewHolder vh = new CustomViewHolder(view);
+        View view = layoutInflater.inflate(R.layout.steps_row_layout, parent, false);
+        StepsViewHolder vh = new StepsViewHolder(view);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder holder, final int position) {
-        holder.txtTitle.setText(dataList.get(position).getCountry());
-        holder.txtDesc.setText(dataList.get(position).getDate_from());
-        picasso.load(dataList.get(position).getFlag())
-                .placeholder((R.drawable.ic_launcher_background))
-                .error(R.drawable.ic_launcher_background)
-                .into(holder.coverImage);
+    public void onBindViewHolder(StepsViewHolder holder, final int position) {
+        holder.txtTitle.setText(dataList.get(position));
+        //holder.txtDesc.setText(dataList.get(position));
+        //picasso.load(dataList.get(position).getFlag())
+        //        .placeholder((R.drawable.ic_launcher_background))
+        //        .error(R.drawable.ic_launcher_background)
+        //        .into(holder.coverImage);
     }
 
     @Override
