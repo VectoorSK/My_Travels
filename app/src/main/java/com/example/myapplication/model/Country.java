@@ -18,9 +18,9 @@ public class Country {
     private String country;
     @SerializedName("flag")
     private String flag;
-    @SerializedName("from")
+    @SerializedName("date_from")
     private String date_from;
-    @SerializedName("to")
+    @SerializedName("date_to")
     private String date_to;
     @SerializedName("desc")
     private String desc;

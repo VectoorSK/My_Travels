@@ -47,7 +47,13 @@ public class DetailsActivity extends AppCompatActivity {
         descView.setText(desc);
 
         TextView stepsView = (TextView) findViewById(R.id.det_steps);
-        String steps = getIntent().getStringExtra("steps");
+        String stepsStr = getIntent().getStringExtra("steps");
+        String[] stepsArr = stepsStr.split("&&");
+        String steps = "";
+        for (String step: stepsArr) {
+            steps += step + " --> ";
+        }
+        steps = steps.substring(0, steps.length() - 4);
         stepsView.setText(steps);
     }
 }
