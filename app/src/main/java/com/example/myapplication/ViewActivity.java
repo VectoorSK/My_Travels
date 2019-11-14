@@ -57,6 +57,8 @@ public class ViewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Country>> call, Throwable t) {
+                System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWWWWWWWWWWWWWWWWWWWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWWWWWWWW");
+                System.out.println(t);
                 progressDialog.dismiss();
                 Toast.makeText(ViewActivity.this, "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
@@ -74,19 +76,19 @@ public class ViewActivity extends AppCompatActivity {
         // input in your data mode in this example a java.util.List, adjust if necessary
         // adapter is your adapter
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
-                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-                    @Override
-                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                        return false;
-                    }
-                    @Override
-                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                        Country country = list.get(viewHolder.getAdapterPosition());
-                        openDetails(country);
-                        //list.remove(viewHolder.getAdapterPosition());
-                        //adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                    }
-                };
+            new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
+                }
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                    Country country = list.get(viewHolder.getAdapterPosition());
+                    openDetails(country);
+                    //list.remove(viewHolder.getAdapterPosition());
+                    //adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                }
+            };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }

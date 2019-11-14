@@ -8,7 +8,7 @@
 
   <ImageView
       android:id="@+id/icon"
-      android:layout_width="50dp"
+      android:layout_width="60dp"
       android:layout_height="160dp"
       android:contentDescription="TODO"
       android:src="@mipmap/ic_launcher"
