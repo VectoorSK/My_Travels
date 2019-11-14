@@ -59,15 +59,15 @@ public class DetailsActivity extends AppCompatActivity {
         String desc = getIntent().getStringExtra("desc");
         descView.setText(desc);
 
-        TextView stepsView = (TextView) findViewById(R.id.det_steps);
-        String stepsStr = getIntent().getStringExtra("steps");
-        String[] stepsArr = stepsStr.split("&&");
-        String steps = "";
-        for (String step: stepsArr) {
-            steps += step + " --> ";
-        }
-        steps = steps.substring(0, steps.length() - 4);
-        stepsView.setText(steps);
+        //TextView stepsView = (TextView) findViewById(R.id.det_steps);
+        //String stepsStr = getIntent().getStringExtra("steps");
+        //String[] stepsArr = stepsStr.split("&&");
+        //String steps = "";
+        //for (String step: stepsArr) {
+        //    steps += step + " --> ";
+        //}
+        //steps = steps.substring(0, steps.length() - 4);
+        //stepsView.setText(steps);
 
         //List<Step> stepsList = ((List<Step>) getIntent().getExtras().getSerializable("steps_array"));
         //List<String> stepsList = Arrays.asList( stepsArr );
