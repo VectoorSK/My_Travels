@@ -7,10 +7,13 @@ public class Step {
     private String city;
     @SerializedName("img")
     private String img;
+    @SerializedName("desc")
+    private String desc;
 
-    public Step(String city, String img) {
+    public Step(String city, String img, String desc) {
         this.city = city;
         this.img = img;
+        this.desc = desc;
     }
 
     public String getCity() {
@@ -27,5 +30,13 @@ public class Step {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

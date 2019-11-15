@@ -8,49 +8,38 @@
 
     <TextView
         android:id="@+id/det_name"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/det_flag"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/det_flag"
-        android:layout_width="350dp"
+        android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
         android:contentDescription="flag"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintStart_toEndOf="@+id/det_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/det_name"
-        android:src="@mipmap/ic_launcher" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/det_date"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
+        android:textSize="16sp"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@+id/det_flag"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/det_flag" />
-
-    <TextView
-        android:id="@+id/det_desc"
-        android:layout_width="350dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/det_date" />
+        app:layout_constraintTop_toBottomOf="@+id/det_name" />
 
     <!-- <TextView
         android:id="@+id/det_steps"
@@ -63,10 +52,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/det_desc" /> -->
 
+    <TextView
+        android:id="@+id/det_desc"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:lineSpacingExtra="8sp"
+        android:text="TextView"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/det_flag" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/step_recycler_view"
         android:layout_width="350dp"
-        android:layout_height="320dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="220dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

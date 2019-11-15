@@ -22,6 +22,8 @@ import com.example.myapplication.network.RetrofitClientInstance;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,6 +36,8 @@ public class ViewActivity extends AppCompatActivity {
 
     private MyAdapter adapter;
     private RecyclerView recyclerView;
+    public Integer sortBy = 0;
+    private List<Country> datalist;
     ProgressDialog progressDialog;
 
     @Override
@@ -45,6 +49,10 @@ public class ViewActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
+        load();
+    }
+
+    private void load () {
         // Create handle for the RetrofitInstance interface
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Country>> call = service.getAllCountries();
@@ -52,13 +60,12 @@ public class ViewActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
                 progressDialog.dismiss();
-                generateDataList(response.body());
+                datalist = response.body();
+                generateDataList(datalist);
             }
 
             @Override
             public void onFailure(Call<List<Country>> call, Throwable t) {
-                System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWWWWWWWWWWWWWWWWWWWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWWWWWWWW");
-                System.out.println(t);
                 progressDialog.dismiss();
                 Toast.makeText(ViewActivity.this, "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
@@ -83,10 +90,15 @@ public class ViewActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                    Country country = list.get(viewHolder.getAdapterPosition());
-                    openDetails(country);
-                    //list.remove(viewHolder.getAdapterPosition());
-                    //adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                    if(swipeDir == 4) {
+                        Country country = list.get(viewHolder.getAdapterPosition());
+                        openDetails(country);
+                    } else {
+                        list.remove(viewHolder.getAdapterPosition());
+                        adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                    }
+                    adapter.notifyDataSetChanged();
+
                 }
             };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
@@ -108,10 +120,33 @@ public class ViewActivity extends AppCompatActivity {
         for (Step step: country.getSteps_array()) {
             detailsIntent.putExtra("city" + i, step.getCity());
             detailsIntent.putExtra("img" + i, step.getImg());
+            detailsIntent.putExtra("desc" + i, step.getDesc());
             i++;
         }
         detailsIntent.putExtra("nb_steps", i);
 
         startActivity(detailsIntent);
+    }
+
+    public void sortByDate (View view) {
+        Collections.sort(datalist, new Comparator<Country>() {
+            @Override
+            public int compare(Country lhs, Country rhs) {
+                return lhs.getDate_from().compareTo(rhs.getDate_from());
+            }
+        });
+        generateDataList(datalist);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void sortByName (View view) {
+        Collections.sort(datalist, new Comparator<Country>() {
+            @Override
+            public int compare(Country lhs, Country rhs) {
+                return lhs.getCountry().compareTo(rhs.getCountry());
+            }
+        });
+        generateDataList(datalist);
+        adapter.notifyDataSetChanged();
     }
 }

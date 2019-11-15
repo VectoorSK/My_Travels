@@ -76,7 +76,8 @@ public class DetailsActivity extends AppCompatActivity {
         for (int i = 0; i < nb_steps; i++) {
             String curr_city = getIntent().getStringExtra("city" + i);
             String curr_img = getIntent().getStringExtra("img" + i);
-            Step curr_step = new Step(curr_city, curr_img);
+            String curr_desc = getIntent().getStringExtra("desc" + i);
+            Step curr_step = new Step(curr_city, curr_img, curr_desc);
             stepsList.add(curr_step);
         }
         generateSteps(stepsList);

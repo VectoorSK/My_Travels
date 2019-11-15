@@ -68,6 +68,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
     @Override
     public void onBindViewHolder(StepsViewHolder holder, final int position) {
         holder.txtTitle.setText(dataList.get(position).getCity());
+        holder.txtDesc.setText(dataList.get(position).getDesc());
         picasso.load(dataList.get(position).getImg())
             .placeholder((R.drawable.ic_launcher_background))
             .error(R.drawable.ic_launcher_background)
