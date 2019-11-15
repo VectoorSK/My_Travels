@@ -17,6 +17,8 @@ public class Country {
     private Integer id;
     @SerializedName("country")
     private String country;
+    @SerializedName("continent")
+    private String continent;
     @SerializedName("flag")
     private String flag;
     @SerializedName("date_from")
@@ -30,9 +32,10 @@ public class Country {
     @SerializedName("steps_array")
     private List<Step> steps_array;
 
-    public Country(Integer id, String country, String flag, String date_from, String date_to, String desc, String steps, List<Step> steps_array) {
+    public Country(Integer id, String country, String continent, String flag, String date_from, String date_to, String desc, String steps, List<Step> steps_array) {
         this.id = id;
         this.country = country;
+        this.continent = continent;
         this.flag = flag;
         this.date_from = date_from;
         this.date_to = date_to;
@@ -57,6 +60,14 @@ public class Country {
         this.country = country;
     }
 
+    public String getContinent() {
+        return continent;
+    }
+
+    public void setContinent(String continent) {
+        this.continent = continent;
+    }
+
     public String getFlag() {
         return flag;
     }
@@ -65,9 +76,7 @@ public class Country {
         this.flag = flag;
     }
 
-    public String getDate_from() {
-        return date_from;
-    }
+    public String getDate_from() { return date_from; }
 
     public void setDate_from(String date_from) {
         this.date_from = date_from;

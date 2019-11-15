@@ -17,6 +17,6 @@ public interface GetDataService {
     //@GET("/api/v2/pokemon?offset=0&limit=151")
     //Call<RetroPokemon> getAllPokemons();
 
-    @GET("/VectoorSK/TravelAPI/master/API2.json")
+    @GET("/VectoorSK/TravelAPI/master/API.json")
     Call<List<Country>> getAllCountries();
 }

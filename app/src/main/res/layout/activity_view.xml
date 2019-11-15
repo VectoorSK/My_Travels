@@ -5,52 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryLight"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
     tools:context=".SecondActivity">
 
     <!-- A RecyclerView with some commonly used attributes -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recycler_view"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="525dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:elevation="2dp"
-        android:src="@android:drawable/ic_menu_add"
-        app:layout_constraintEnd_toEndOf="parent"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/sort_date"
+        android:id="@+id/sort_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="date"
-        android:onClick="sortByDate"
-        app:layout_constraintEnd_toStartOf="@+id/sort_name"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp"
+        android:drawableLeft="@drawable/ic_filter_list_black_24dp"
+        android:onClick="sort_by"
+        android:text="  date"
+        android:backgroundTint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/sort_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="name"
-        android:onClick="sortByName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sort_date"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

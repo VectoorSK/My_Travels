@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.model.Country;
@@ -36,7 +37,6 @@ public class ViewActivity extends AppCompatActivity {
 
     private MyAdapter adapter;
     private RecyclerView recyclerView;
-    public Integer sortBy = 0;
     private List<Country> datalist;
     ProgressDialog progressDialog;
 
@@ -49,10 +49,6 @@ public class ViewActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-        load();
-    }
-
-    private void load () {
         // Create handle for the RetrofitInstance interface
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Country>> call = service.getAllCountries();
@@ -66,6 +62,8 @@ public class ViewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Country>> call, Throwable t) {
+                System.out.println(call);
+                System.out.println(t);
                 progressDialog.dismiss();
                 Toast.makeText(ViewActivity.this, "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
@@ -128,25 +126,41 @@ public class ViewActivity extends AppCompatActivity {
         startActivity(detailsIntent);
     }
 
-    public void sortByDate (View view) {
-        Collections.sort(datalist, new Comparator<Country>() {
-            @Override
-            public int compare(Country lhs, Country rhs) {
-                return lhs.getDate_from().compareTo(rhs.getDate_from());
-            }
-        });
-        generateDataList(datalist);
-        adapter.notifyDataSetChanged();
-    }
+    private int sort = 0;
+    private String sort_cat = "date";
 
-    public void sortByName (View view) {
-        Collections.sort(datalist, new Comparator<Country>() {
-            @Override
-            public int compare(Country lhs, Country rhs) {
-                return lhs.getCountry().compareTo(rhs.getCountry());
-            }
-        });
+    public void sort_by (View view) {
+        if (sort == 0) {
+            Collections.sort(datalist, new Comparator<Country>() {
+                @Override
+                public int compare(Country lhs, Country rhs) {
+                    return lhs.getCountry().compareTo(rhs.getCountry());
+                }
+            });
+            sort_cat = "  country";
+            sort++;
+        } else if (sort == 1) {
+            Collections.sort(datalist, new Comparator<Country>() {
+                @Override
+                public int compare(Country lhs, Country rhs) {
+                    return lhs.getContinent().compareTo(rhs.getContinent());
+                }
+            });
+            sort_cat = "  continent";
+            sort++;
+        } else {
+            Collections.sort(datalist, new Comparator<Country>() {
+                @Override
+                public int compare(Country lhs, Country rhs) {
+                    return lhs.getDate_from().compareTo(rhs.getDate_from());
+                }
+            });
+            sort_cat = "  date";
+            sort = 0;
+        }
         generateDataList(datalist);
         adapter.notifyDataSetChanged();
+        TextView sort_text = (TextView) findViewById(R.id.sort_button);
+        sort_text.setText(sort_cat);
     }
 }
