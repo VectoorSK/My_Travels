@@ -104,7 +104,7 @@ public class StepDetailsActivity extends AppCompatActivity {
                 fullscreen(img);
             }
         });
-        GridLayoutManager layoutManager = new GridLayoutManager(StepDetailsActivity.this, 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(StepDetailsActivity.this, 3);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
