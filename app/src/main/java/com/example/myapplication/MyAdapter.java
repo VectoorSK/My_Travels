@@ -29,9 +29,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
     private Context context;
     private Picasso picasso;
 
-    public MyAdapter(Context context, List<Country> dataList) {
+    public interface OnItemClickListener {
+        void onItemClick(Country item);
+    }
+    private final OnItemClickListener listener;
+
+    public MyAdapter(Context context, List<Country> dataList, OnItemClickListener listener) {
         this.context = context;
         this.dataList = dataList;
+        this.listener = listener;
 
         Picasso.Builder builder = new Picasso.Builder(context);
         builder.downloader(new OkHttp3Downloader(context));
@@ -55,6 +61,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
             txtDesc = (TextView) mView.findViewById(R.id.description);
             contImage = (ImageView) mView.findViewById(R.id.contImage);
             coverImage = (ImageView) mView.findViewById(R.id.icon);
+
+        }
+
+        public void bind(final Country item, final OnItemClickListener listener) {
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
         }
     }
 
@@ -68,6 +83,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, final int position) {
+        holder.bind(dataList.get(position), listener);
         holder.txtTitle.setText(dataList.get(position).getCountry());
         holder.txtDesc.setText(toDateFr(dataList.get(position).getDate_from()));
 

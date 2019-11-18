@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.model.Country;
+import com.example.myapplication.model.Img;
 import com.example.myapplication.model.Pokemon;
 import com.example.myapplication.model.RetroPhoto;
 import com.example.myapplication.model.RetroPokemon;
@@ -73,7 +74,12 @@ public class ViewActivity extends AppCompatActivity {
     //Method to generate List of data using RecyclerView with custom adapter
     private void generateDataList(final List<Country> list) {
         recyclerView = findViewById(R.id.my_recycler_view);
-        adapter = new MyAdapter(this, list);
+        adapter = new MyAdapter(this, list, new MyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Country country) {
+                openDetails(country);
+            }
+        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ViewActivity.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -88,7 +94,7 @@ public class ViewActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                    if(swipeDir == 4) {
+                    if(swipeDir == ItemTouchHelper.LEFT) {
                         Country country = list.get(viewHolder.getAdapterPosition());
                         openDetails(country);
                     } else {
@@ -96,7 +102,6 @@ public class ViewActivity extends AppCompatActivity {
                         adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                     }
                     adapter.notifyDataSetChanged();
-
                 }
             };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
@@ -107,22 +112,7 @@ public class ViewActivity extends AppCompatActivity {
 
         Intent detailsIntent = new Intent(this, DetailsActivity.class);
 
-        detailsIntent.putExtra("name", country.getCountry());
-        detailsIntent.putExtra("flag", country.getFlag());
-        detailsIntent.putExtra("from", country.getDate_from());
-        detailsIntent.putExtra("to", country.getDate_to());
-        detailsIntent.putExtra("desc", country.getDesc());
-        detailsIntent.putExtra("steps", country.getSteps());
-        //detailsIntent.putExtra("steps_array", (Serializable) country.getSteps_array());
-        int i = 0;
-        for (Step step: country.getSteps_array()) {
-            detailsIntent.putExtra("city" + i, step.getCity());
-            detailsIntent.putExtra("img" + i, step.getImg());
-            detailsIntent.putExtra("desc" + i, step.getDesc());
-            i++;
-        }
-        detailsIntent.putExtra("nb_steps", i);
-
+        detailsIntent.putExtra("id", country.getId());
         startActivity(detailsIntent);
     }
 

@@ -1,41 +1,33 @@
 package com.example.myapplication;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
-
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.model.Country;
-import com.example.myapplication.model.Pokemon;
-import com.example.myapplication.model.RetroPhoto;
-import com.example.myapplication.model.RetroPokemon;
+import com.example.myapplication.model.Img;
 import com.example.myapplication.model.Step;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder> {
+import java.util.List;
 
-    private List<Step> dataList;
+public class ImgAdapter extends RecyclerView.Adapter<ImgAdapter.ImgViewHolder> {
+
+    private List<Img> dataList;
     private Context context;
     private Picasso picasso;
 
     public interface OnItemClickListener {
-        void onItemClick(Step item);
+        void onItemClick(Img item);
     }
     private final OnItemClickListener listener;
 
-    public StepsAdapter(Context context, List<Step> dataList, OnItemClickListener listener) {
+    public ImgAdapter(Context context, List<Img> dataList, OnItemClickListener listener) {
         this.context = context;
         this.dataList = dataList;
         this.listener = listener;
@@ -45,24 +37,22 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
         picasso = builder.build();
     }
 
-    class StepsViewHolder extends RecyclerView.ViewHolder {
+    class ImgViewHolder extends RecyclerView.ViewHolder {
 
         public final View mView;
 
-        public TextView txtTitle;
-        public TextView txtDesc;
+        //public TextView txtDesc;
         public ImageView coverImage;
 
-        public StepsViewHolder(View itemView) {
+        public ImgViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
 
-            txtTitle = (TextView) mView.findViewById(R.id.steps_title);
-            txtDesc = (TextView) mView.findViewById(R.id.steps_description);
-            coverImage = (ImageView) mView.findViewById(R.id.steps_icon);
+            //txtDesc = (TextView) mView.findViewById(R.id.img_caption);
+            coverImage = (ImageView) mView.findViewById(R.id.img_icon);
         }
 
-        public void bind(final Step item, final OnItemClickListener listener) {
+        public void bind(final Img item, final OnItemClickListener listener) {
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     listener.onItemClick(item);
@@ -72,19 +62,18 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
     }
 
     @Override
-    public StepsAdapter.StepsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ImgAdapter.ImgViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.steps_row_layout, parent, false);
-        StepsViewHolder vh = new StepsViewHolder(view);
+        View view = layoutInflater.inflate(R.layout.img_row_layout, parent, false);
+        ImgViewHolder vh = new ImgViewHolder(view);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(StepsViewHolder holder, final int position) {
+    public void onBindViewHolder(ImgViewHolder holder, final int position) {
         holder.bind(dataList.get(position), listener);
-        holder.txtTitle.setText(dataList.get(position).getCity());
-        holder.txtDesc.setText(dataList.get(position).getDesc());
-        picasso.load(dataList.get(position).getImg())
+        //holder.txtDesc.setText(dataList.get(position).getCaption());
+        picasso.load(dataList.get(position).getUrl())
             .placeholder((R.drawable.ic_launcher_background))
             .error(R.drawable.ic_launcher_background)
             .into(holder.coverImage);

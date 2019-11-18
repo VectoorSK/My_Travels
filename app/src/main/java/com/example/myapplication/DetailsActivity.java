@@ -6,13 +6,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.model.Country;
+import com.example.myapplication.model.Img;
 import com.example.myapplication.model.Step;
+import com.example.myapplication.network.GetDataService;
+import com.example.myapplication.network.RetrofitClientInstance;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -20,27 +25,63 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class DetailsActivity extends AppCompatActivity {
 
     private StepsAdapter adapter;
     private RecyclerView recyclerView;
+    private List<Step> datalist;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        loadDetails();
+        int id_step = getIntent().getIntExtra("id", 0);
+        loadStep(id_step);
     }
 
-    private void loadDetails () {
+    private void loadStep(final int id) {
+        progressDialog = new ProgressDialog(DetailsActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+        // Create handle for the RetrofitInstance interface
+        GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
+        Call<List<Country>> call = service.getAllCountries();
+        call.enqueue(new Callback<List<Country>>() {
+            @Override
+            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
+                progressDialog.dismiss();
+                datalist = response.body().get(id).getSteps_array();
+                generateSteps(datalist);
+
+                String name = response.body().get(id).getCountry();
+                String flag = response.body().get(id).getFlag();
+                String from = response.body().get(id).getDate_from();
+                String to = response.body().get(id).getDate_to();
+                String desc = response.body().get(id).getDesc();
+                loadDetails(name, flag, from, to, desc);
+            }
+
+            @Override
+            public void onFailure(Call<List<Country>> call, Throwable t) {
+                System.out.println(call);
+                System.out.println(t);
+                progressDialog.dismiss();
+                Toast.makeText(DetailsActivity.this, "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadDetails (String name, String flag, String from, String to, String desc) {
         TextView nameView = (TextView) findViewById(R.id.det_name);
-        String name = getIntent().getStringExtra("name");
         nameView.setText(name);
 
         ImageView flagView = (ImageView) findViewById(R.id.det_flag);
-        String flag = getIntent().getStringExtra("flag");
-        nameView.setText(name);
         Picasso.Builder builder = new Picasso.Builder(this);
         builder.downloader(new OkHttp3Downloader(this));
         Picasso picasso = builder.build();
@@ -50,44 +91,55 @@ public class DetailsActivity extends AppCompatActivity {
                 .into(flagView);
 
         TextView dateView = (TextView) findViewById(R.id.det_date);
-        String from = getIntent().getStringExtra("from");
-        String to = getIntent().getStringExtra("to");
         String date = "From: " + from + "\nTo: " + to;
         dateView.setText(date);
 
         TextView descView = (TextView) findViewById(R.id.det_desc);
-        String desc = getIntent().getStringExtra("desc");
         descView.setText(desc);
-
-        //TextView stepsView = (TextView) findViewById(R.id.det_steps);
-        //String stepsStr = getIntent().getStringExtra("steps");
-        //String[] stepsArr = stepsStr.split("&&");
-        //String steps = "";
-        //for (String step: stepsArr) {
-        //    steps += step + " --> ";
-        //}
-        //steps = steps.substring(0, steps.length() - 4);
-        //stepsView.setText(steps);
-
-        //List<Step> stepsList = ((List<Step>) getIntent().getExtras().getSerializable("steps_array"));
-        //List<String> stepsList = Arrays.asList( stepsArr );
-        List<Step> stepsList = new ArrayList<>();
-        int nb_steps = getIntent().getIntExtra("nb_steps", 0);
-        for (int i = 0; i < nb_steps; i++) {
-            String curr_city = getIntent().getStringExtra("city" + i);
-            String curr_img = getIntent().getStringExtra("img" + i);
-            String curr_desc = getIntent().getStringExtra("desc" + i);
-            Step curr_step = new Step(curr_city, curr_img, curr_desc);
-            stepsList.add(curr_step);
-        }
-        generateSteps(stepsList);
     }
 
-    private void generateSteps(List<Step> list) {
+    private void generateSteps(final List<Step> list) {
         recyclerView = findViewById(R.id.step_recycler_view);
-        adapter = new StepsAdapter(this, list);
+        adapter = new StepsAdapter(this, list, new StepsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Step step) {
+                openDetails(step);
+            }
+        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DetailsActivity.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
+            new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
+                }
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                    if(swipeDir == ItemTouchHelper.LEFT) {
+                        Step step = list.get(viewHolder.getAdapterPosition());
+                        openDetails(step);
+                    } else {
+                        list.remove(viewHolder.getAdapterPosition());
+                        adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
+
+    private void openDetails (Step step) {
+
+        Intent detailsIntent = new Intent(this, StepDetailsActivity.class);
+
+        int travel_id = getIntent().getIntExtra("id", 0);
+        detailsIntent.putExtra("travel_id", travel_id);
+        detailsIntent.putExtra("step_id", step.getId());
+        startActivity(detailsIntent);
+    }
+
 }

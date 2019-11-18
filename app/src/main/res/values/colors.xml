@@ -5,5 +5,5 @@
     <color name="colorPrimaryLight">#64B5F6</color>
     <color name="colorAccent">#D81B60</color>
     <color name="screenBackground">#BBDEFB</color>
-    <color name="white">#ffffff</color>
+    <color name="white">#dddddd</color>
 </resources>

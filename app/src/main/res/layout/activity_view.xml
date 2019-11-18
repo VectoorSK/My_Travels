@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight"
+    android:background="@color/white"
     tools:context=".SecondActivity">
 
     <!-- A RecyclerView with some commonly used attributes -->
@@ -13,8 +13,9 @@
         android:id="@+id/my_recycler_view"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:layout_height="525dp"
+        android:layout_height="match_parent"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,6 +24,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        app:cardBackgroundColor="@color/colorPrimaryLight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
@@ -37,7 +39,7 @@
         android:drawableLeft="@drawable/ic_filter_list_black_24dp"
         android:onClick="sort_by"
         android:text="  date"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/colorPrimaryLight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
