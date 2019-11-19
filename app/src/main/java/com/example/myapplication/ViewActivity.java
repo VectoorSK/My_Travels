@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,17 +12,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.model.Country;
-import com.example.myapplication.model.Img;
-import com.example.myapplication.model.Pokemon;
-import com.example.myapplication.model.RetroPhoto;
-import com.example.myapplication.model.RetroPokemon;
-import com.example.myapplication.model.Step;
+import com.example.myapplication.model.Travel;
 import com.example.myapplication.network.GetDataService;
 import com.example.myapplication.network.RetrofitClientInstance;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -38,7 +30,7 @@ public class ViewActivity extends AppCompatActivity {
 
     private MyAdapter adapter;
     private RecyclerView recyclerView;
-    private List<Country> datalist;
+    private List<Travel> datalist;
     ProgressDialog progressDialog;
 
     @Override
@@ -52,17 +44,17 @@ public class ViewActivity extends AppCompatActivity {
 
         // Create handle for the RetrofitInstance interface
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Country>> call = service.getAllCountries();
-        call.enqueue(new Callback<List<Country>>() {
+        Call<List<Travel>> call = service.getAllTravels();
+        call.enqueue(new Callback<List<Travel>>() {
             @Override
-            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
+            public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
                 progressDialog.dismiss();
                 datalist = response.body();
                 generateDataList(datalist);
             }
 
             @Override
-            public void onFailure(Call<List<Country>> call, Throwable t) {
+            public void onFailure(Call<List<Travel>> call, Throwable t) {
                 System.out.println(call);
                 System.out.println(t);
                 progressDialog.dismiss();
@@ -72,12 +64,12 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     //Method to generate List of data using RecyclerView with custom adapter
-    private void generateDataList(final List<Country> list) {
+    private void generateDataList(final List<Travel> list) {
         recyclerView = findViewById(R.id.my_recycler_view);
         adapter = new MyAdapter(this, list, new MyAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(Country country) {
-                openDetails(country);
+            public void onItemClick(Travel travel) {
+                openDetails(travel);
             }
         });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ViewActivity.this);
@@ -95,8 +87,8 @@ public class ViewActivity extends AppCompatActivity {
                 @Override
                 public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                     if(swipeDir == ItemTouchHelper.LEFT) {
-                        Country country = list.get(viewHolder.getAdapterPosition());
-                        openDetails(country);
+                        Travel travel = list.get(viewHolder.getAdapterPosition());
+                        openDetails(travel);
                     } else {
                         list.remove(viewHolder.getAdapterPosition());
                         adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
@@ -108,11 +100,11 @@ public class ViewActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    private void openDetails (Country country) {
+    private void openDetails (Travel travel) {
 
         Intent detailsIntent = new Intent(this, DetailsActivity.class);
 
-        detailsIntent.putExtra("id", country.getId());
+        detailsIntent.putExtra("id", travel.getId());
         startActivity(detailsIntent);
     }
 
@@ -121,27 +113,27 @@ public class ViewActivity extends AppCompatActivity {
 
     public void sort_by (View view) {
         if (sort == 0) {
-            Collections.sort(datalist, new Comparator<Country>() {
+            Collections.sort(datalist, new Comparator<Travel>() {
                 @Override
-                public int compare(Country lhs, Country rhs) {
+                public int compare(Travel lhs, Travel rhs) {
                     return lhs.getCountry().compareTo(rhs.getCountry());
                 }
             });
             sort_cat = "  country";
             sort++;
         } else if (sort == 1) {
-            Collections.sort(datalist, new Comparator<Country>() {
+            Collections.sort(datalist, new Comparator<Travel>() {
                 @Override
-                public int compare(Country lhs, Country rhs) {
+                public int compare(Travel lhs, Travel rhs) {
                     return lhs.getContinent().compareTo(rhs.getContinent());
                 }
             });
             sort_cat = "  continent";
             sort++;
         } else {
-            Collections.sort(datalist, new Comparator<Country>() {
+            Collections.sort(datalist, new Comparator<Travel>() {
                 @Override
-                public int compare(Country lhs, Country rhs) {
+                public int compare(Travel lhs, Travel rhs) {
                     return lhs.getDate_from().compareTo(rhs.getDate_from());
                 }
             });

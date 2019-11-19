@@ -21,15 +21,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String TOTAL_COUNT = "total_count";
 
     public void randomMe (View view) {
-
-        // Create an Intent to start the second activity
         Intent randomIntent = new Intent(this, SecondActivity.class);
-
-        // Add the count to the extras for the Intent.
         randomIntent.putExtra(TOTAL_COUNT, 10);
-
-        // Start the new activity.
         startActivity(randomIntent);
+    }
+
+    public void openMaps (View view) {
+        Intent mapsIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapsIntent);
     }
 
     public void openView (View view) {

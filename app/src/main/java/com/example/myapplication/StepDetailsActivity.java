@@ -2,18 +2,17 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.model.Country;
+import com.example.myapplication.model.Travel;
 import com.example.myapplication.model.Img;
 import com.example.myapplication.model.Step;
 import com.example.myapplication.network.GetDataService;
@@ -21,7 +20,6 @@ import com.example.myapplication.network.RetrofitClientInstance;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,6 +32,9 @@ public class StepDetailsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Img> datalist;
     ProgressDialog progressDialog;
+
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +53,10 @@ public class StepDetailsActivity extends AppCompatActivity {
         progressDialog.show();
         // Create handle for the RetrofitInstance interface
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Country>> call = service.getAllCountries();
-        call.enqueue(new Callback<List<Country>>() {
+        Call<List<Travel>> call = service.getAllTravels();
+        call.enqueue(new Callback<List<Travel>>() {
             @Override
-            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
+            public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
                 progressDialog.dismiss();
                 Step step = response.body().get(id_travel).getSteps_array().get(id_step);
                 datalist = step.getPictures();
@@ -65,10 +66,13 @@ public class StepDetailsActivity extends AppCompatActivity {
                 String img = step.getImg();
                 String desc = step.getDesc();
                 loadDetails(name, img, desc);
+
+                latitude = step.getLat();
+                longitude = step.getLng();
             }
 
             @Override
-            public void onFailure(Call<List<Country>> call, Throwable t) {
+            public void onFailure(Call<List<Travel>> call, Throwable t) {
                 System.out.println(call);
                 System.out.println(t);
                 progressDialog.dismiss();
@@ -114,5 +118,13 @@ public class StepDetailsActivity extends AppCompatActivity {
         fullIntent.putExtra("url", img.getUrl());
         fullIntent.putExtra("caption", img.getCaption());
         startActivity(fullIntent);
+    }
+
+    public void openGMaps(View view) {
+        Intent mapsIntent = new Intent(this, CityMapsActivity.class);
+        mapsIntent.putExtra("latitude", latitude);
+        mapsIntent.putExtra("longitude", longitude);
+        startActivity(mapsIntent);
+
     }
 }

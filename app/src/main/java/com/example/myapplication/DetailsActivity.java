@@ -13,16 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.model.Country;
-import com.example.myapplication.model.Img;
+import com.example.myapplication.model.Travel;
 import com.example.myapplication.model.Step;
 import com.example.myapplication.network.GetDataService;
 import com.example.myapplication.network.RetrofitClientInstance;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -51,10 +48,10 @@ public class DetailsActivity extends AppCompatActivity {
         progressDialog.show();
         // Create handle for the RetrofitInstance interface
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Country>> call = service.getAllCountries();
-        call.enqueue(new Callback<List<Country>>() {
+        Call<List<Travel>> call = service.getAllTravels();
+        call.enqueue(new Callback<List<Travel>>() {
             @Override
-            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
+            public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
                 progressDialog.dismiss();
                 datalist = response.body().get(id).getSteps_array();
                 generateSteps(datalist);
@@ -68,7 +65,7 @@ public class DetailsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Country>> call, Throwable t) {
+            public void onFailure(Call<List<Travel>> call, Throwable t) {
                 System.out.println(call);
                 System.out.println(t);
                 progressDialog.dismiss();
@@ -140,6 +137,14 @@ public class DetailsActivity extends AppCompatActivity {
         detailsIntent.putExtra("travel_id", travel_id);
         detailsIntent.putExtra("step_id", step.getId());
         startActivity(detailsIntent);
+    }
+
+    public void openTravelMaps (View view) {
+
+        Intent travelMapsIntent = new Intent(this, TravelMapsActivity.class);
+        int travel_id = getIntent().getIntExtra("id", 0);
+        travelMapsIntent.putExtra("id", travel_id);
+        startActivity(travelMapsIntent);
     }
 
 }

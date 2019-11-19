@@ -12,6 +12,10 @@ public class Step {
     private Integer id;
     @SerializedName("city")
     private String city;
+    @SerializedName("lat")
+    private double lat;
+    @SerializedName("lng")
+    private double lng;
     @SerializedName("img")
     private String img;
     @SerializedName("desc")
@@ -19,9 +23,11 @@ public class Step {
     @SerializedName("pictures")
     private List<Img> pictures;
 
-    public Step(Integer id, String city, String img, String desc, List<Img> pictures) {
+    public Step(Integer id, String city, double lat, double lng, String img, String desc, List<Img> pictures) {
         this.id = id;
         this.city = city;
+        this.lat = lat;
+        this.lng = lng;
         this.img = img;
         this.desc = desc;
         this.pictures = pictures;
@@ -41,6 +47,22 @@ public class Step {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public String getImg() {

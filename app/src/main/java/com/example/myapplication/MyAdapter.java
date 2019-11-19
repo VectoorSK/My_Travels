@@ -1,40 +1,32 @@
 package com.example.myapplication;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.model.Country;
-import com.example.myapplication.model.Pokemon;
-import com.example.myapplication.model.RetroPhoto;
-import com.example.myapplication.model.RetroPokemon;
+import com.example.myapplication.model.Travel;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> {
 
-    private List<Country> dataList;
+    private List<Travel> dataList;
     private Context context;
     private Picasso picasso;
 
     public interface OnItemClickListener {
-        void onItemClick(Country item);
+        void onItemClick(Travel item);
     }
     private final OnItemClickListener listener;
 
-    public MyAdapter(Context context, List<Country> dataList, OnItemClickListener listener) {
+    public MyAdapter(Context context, List<Travel> dataList, OnItemClickListener listener) {
         this.context = context;
         this.dataList = dataList;
         this.listener = listener;
@@ -64,7 +56,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
 
         }
 
-        public void bind(final Country item, final OnItemClickListener listener) {
+        public void bind(final Travel item, final OnItemClickListener listener) {
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     listener.onItemClick(item);
