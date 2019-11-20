@@ -50,6 +50,13 @@ public class ViewActivity extends AppCompatActivity {
             public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
                 progressDialog.dismiss();
                 datalist = response.body();
+
+                Collections.sort(datalist, new Comparator<Travel>() {
+                    @Override
+                    public int compare(Travel lhs, Travel rhs) {
+                        return lhs.getDate_from().compareTo(rhs.getDate_from());
+                    }
+                });
                 generateDataList(datalist);
             }
 

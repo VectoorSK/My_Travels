@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/colorPrimaryLight"
-        android:onClick="openMaps"
+        android:onClick="openTravelMaps"
         android:drawableLeft="@drawable/ic_map_black_24dp"
         android:paddingLeft="76dp"
         android:paddingRight="100dp"
@@ -40,19 +40,35 @@
         app:layout_constraintTop_toBottomOf="@+id/travel_btn" />
 
     <Button
+        android:id="@+id/map_button2"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimaryLight"
+        android:drawableLeft="@drawable/ic_place_black_24dp"
+        android:onClick="openCountryMaps"
+        android:paddingLeft="76dp"
+        android:paddingRight="100dp"
+        android:text="visited countries"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_button" />
+
+    <Button
         android:id="@+id/rand_button"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/colorPrimaryLight"
-        android:onClick="randomMe"
         android:drawableLeft="@drawable/ic_filter_list_black_24dp"
+        android:onClick="randomMe"
         android:paddingLeft="76dp"
         android:paddingRight="100dp"
         android:text="@string/random_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map_button" />
+        app:layout_constraintTop_toBottomOf="@+id/map_button2" />
 
     <TextView
         android:id="@+id/mainTitle"

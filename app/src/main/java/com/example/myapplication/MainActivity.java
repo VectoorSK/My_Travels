@@ -26,8 +26,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(randomIntent);
     }
 
-    public void openMaps (View view) {
+    public void openCountryMaps (View view) {
         Intent mapsIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapsIntent);
+    }
+
+    public void openTravelMaps (View view) {
+        Intent mapsIntent = new Intent(this, AllTravelMapsActivity.class);
         startActivity(mapsIntent);
     }
 

@@ -13,7 +13,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="TextView"
-        android:textSize="30sp"
+        android:textSize="32sp"
         app:layout_constraintEnd_toStartOf="@+id/det_flag"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -77,12 +77,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <ImageView
         android:id="@+id/travel_map_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="map"
+        android:layout_marginTop="26dp"
         android:onClick="openTravelMaps"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_place_lightblue_24dp"
+        android:text="map"
+        app:layout_constraintEnd_toStartOf="@+id/det_name"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
