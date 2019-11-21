@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,14 @@ public class ViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
+
+    /*public ViewActivity() {
+        //
+    }
+
+    @Override
+    protected View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_view, container, false);*/
 
         progressDialog = new ProgressDialog(ViewActivity.this);
         progressDialog.setMessage("Loading...");
@@ -68,6 +78,7 @@ public class ViewActivity extends AppCompatActivity {
                 Toast.makeText(ViewActivity.this, "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
+        //return view;
     }
 
     //Method to generate List of data using RecyclerView with custom adapter

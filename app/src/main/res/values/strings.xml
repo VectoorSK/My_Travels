@@ -13,5 +13,6 @@
     <string name="title_activity_city_maps">Map</string>
     <string name="title_activity_travel_maps">Map</string>
     <string name="title_activity_all_travel_maps">Map</string>
+    <string name="title_activity_test">Map</string>
     <!-- VIEW ACTIVITY -->
 </resources>

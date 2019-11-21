@@ -3,12 +3,8 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,8 +17,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TOTAL_COUNT = "total_count";
 
     public void randomMe (View view) {
-        Intent randomIntent = new Intent(this, SecondActivity.class);
-        randomIntent.putExtra(TOTAL_COUNT, 10);
+        Intent randomIntent = new Intent(this, VisitedMapActivity.class);
+        //randomIntent.putExtra(TOTAL_COUNT, 10);
         startActivity(randomIntent);
     }
 

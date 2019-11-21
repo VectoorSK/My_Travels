@@ -94,10 +94,13 @@ public class TravelMapsActivity extends FragmentActivity implements OnMapReadyCa
         for (Step step : steps) {
             LatLng latlng = new LatLng(step.getLat(), step.getLng());
             polyline.add(latlng);
+            mMap.addMarker(new MarkerOptions().position(latlng)
+                    .title(step.getCity())
+                    .snippet(step.getDesc())
+                ).showInfoWindow();
         }
         polyline.add(originLatLng);
         mMap.addPolyline(polyline);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 6));
-        mMap.addMarker(new MarkerOptions().position(originLatLng).title(""));
     }
 }

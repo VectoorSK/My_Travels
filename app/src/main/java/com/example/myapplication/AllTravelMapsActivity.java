@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -28,6 +30,7 @@ public class AllTravelMapsActivity extends FragmentActivity implements OnMapRead
 
     private GoogleMap mMap;
     private List<Travel> datalist;
+    private int currId;
     ProgressDialog progressDialog;
 
     @Override
@@ -82,7 +85,8 @@ public class AllTravelMapsActivity extends FragmentActivity implements OnMapRead
     }
 
     private void loadCircuits(List<Travel> datalist) {
-        for (Travel travel : datalist) {
+        for (final Travel travel : datalist) {
+            currId = travel.getId();
             PolylineOptions polyline = new PolylineOptions().clickable(true);
             Step origin = travel.getSteps_array().get(0);
             LatLng originLatLng = new LatLng(origin.getLat(), origin.getLng());
@@ -92,8 +96,24 @@ public class AllTravelMapsActivity extends FragmentActivity implements OnMapRead
             }
             polyline.add(originLatLng);
             mMap.addPolyline(polyline);
-            mMap.addMarker(new MarkerOptions().position(originLatLng).title(""));
+            mMap.addMarker(new MarkerOptions().position(originLatLng).title(travel.getId().toString()));
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    int id = Integer.parseInt(marker.getTitle());
+                    openDetails(id);
+                    return false;
+                }
+            });
         }
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0,0), 0));
+    }
+
+    private void openDetails (int id) {
+
+        Intent detailsIntent = new Intent(this, DetailsActivity.class);
+
+        detailsIntent.putExtra("id", id);
+        startActivity(detailsIntent);
     }
 }
