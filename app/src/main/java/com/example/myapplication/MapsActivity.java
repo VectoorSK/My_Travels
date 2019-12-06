@@ -1,28 +1,22 @@
 package com.example.myapplication;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.myapplication.model.Country;
+import com.example.myapplication.model.Border;
+import com.example.myapplication.model.Coord;
 import com.example.myapplication.model.Travel;
 import com.example.myapplication.network.GetDataService;
 import com.example.myapplication.network.RetrofitClientInstance;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.List;
 
@@ -33,14 +27,13 @@ import retrofit2.Response;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private List<Country> datalist;
-    private List<Travel> travelList;
+    private List<Border> borderList;
     ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_test);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -60,91 +53,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        loadMarkers();
-
-        // Add a marker in Sydney and move the camera
-        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
-        }
-        else {
-            //mMap.addCircle(new CircleOptions().center(new LatLng(0,0)).radius(1000000));
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Localisation désactivé")
-                    .setMessage("Voulez-vous l'activer ?")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS); // TODO: test avec ACTION_APP_NOTIFICATION_SETTINGS
-                            startActivityForResult(callGPSSettingIntent,0);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        }
+        loadBorders();
     }
 
 
-
-    private void loadMarkers() {
+    private void loadBorders() {
         progressDialog = new ProgressDialog(MapsActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         // Create handle for the RetrofitInstance interface
         final GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
-        Call<List<Country>> call = service.getAllCountries();
-        call.enqueue(new Callback<List<Country>>() {
+        Call<List<Border>> call = service.getAllBorders();
+        call.enqueue(new Callback<List<Border>>() {
             @Override
-            public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
-
-                datalist = response.body();
-                //generateMarkers(datalist);
-                Call<List<Travel>> call2 = service.getAllTravels();
-                call2.enqueue(new Callback<List<Travel>>() {
-                    @Override
-                    public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
-
-                        progressDialog.dismiss();
-                        travelList = response.body();
-                        generateMarkers(datalist, travelList);
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Travel>> call, Throwable t) {
-                        System.out.println(call);
-                        System.out.println(t);
-                        progressDialog.dismiss();
-                        Toast.makeText(MapsActivity.this, "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            public void onResponse(Call<List<Border>> call, Response<List<Border>> response) {
+                progressDialog.dismiss();
+                borderList = response.body();
+                drawShapes(borderList);
             }
 
             @Override
-            public void onFailure(Call<List<Country>> call, Throwable t) {
-                System.out.println(call);
-                System.out.println(t);
+            public void onFailure(Call<List<Border>> call, Throwable t) {
                 progressDialog.dismiss();
                 Toast.makeText(MapsActivity.this, "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void generateMarkers(List<Country> list, List<Travel> user_list) {
-        for (Country country : list) {
-
-            for (Travel trav : user_list) {
-                if (trav.getCode().matches(country.getCountry())) {
-
-                    String name = country.getName();
-                    double lat = country.getLatitude();
-                    double lng = country.getLongitude();
-
-                    LatLng current = new LatLng(lat, lng);
-                    mMap.addMarker(new MarkerOptions().position(current).title(name));
-
-                }
+    private void drawShapes(List<Border> borderList) {
+        for (Border border : borderList) {
+            PolygonOptions polygon = new PolygonOptions().clickable(true);
+            for (Coord point : border.getBorders()) {
+                LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
+                polygon.add(latLng);
+                //mMap.addMarker(new MarkerOptions().position(latLng));
             }
+            polygon.fillColor(0x8079ADDC).strokeColor(0xFF79ADDC);
+            mMap.addPolygon(polygon);
         }
     }
 }

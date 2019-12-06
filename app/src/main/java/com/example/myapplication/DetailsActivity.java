@@ -107,7 +107,7 @@ public class DetailsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
+        /*ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
             new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                 @Override
                 public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -119,14 +119,14 @@ public class DetailsActivity extends AppCompatActivity {
                         Step step = list.get(viewHolder.getAdapterPosition());
                         openDetails(step);
                     } else {
-                        list.remove(viewHolder.getAdapterPosition());
-                        adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                        //list.remove(viewHolder.getAdapterPosition());
+                        //adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                     }
                     adapter.notifyDataSetChanged();
                 }
             };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(recyclerView);*/
     }
 
     private void openDetails (Step step) {

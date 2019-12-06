@@ -15,6 +15,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.List;
@@ -103,13 +104,13 @@ public class VisitedMapActivity extends FragmentActivity implements OnMapReadyCa
 
     private void drawShapes(List<Travel> travelList, List<Border> borderList) {
         for (Travel travel : travelList) {
-           for (Border border : borderList) {
+            for (Border border : borderList) {
                 if (border.getCode().matches(travel.getCode())) {
                     PolygonOptions polygon = new PolygonOptions().clickable(true);
                     for (Coord point : border.getBorders()) {
                         LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
                         polygon.add(latLng);
-                        //mMap.addMarker(new MarkerOptions().position())
+                        //mMap.addMarker(new MarkerOptions().position(latLng));
                     }
                     if (travel.getContinent().matches("Europe")) {
                         polygon.fillColor(0x8079ADDC).strokeColor(0xFF79ADDC);
@@ -124,6 +125,7 @@ public class VisitedMapActivity extends FragmentActivity implements OnMapReadyCa
                     } else if (travel.getContinent().matches("Océanie")) {
                         polygon.fillColor(0x80BA68C8).strokeColor(0xFFBA68C8);
                     }
+                    polygon.fillColor(0x8079ADDC).strokeColor(0xFF79ADDC);
                     mMap.addPolygon(polygon);
                     break;
                 }

@@ -11,13 +11,7 @@ import retrofit2.http.GET;
 
 public interface GetDataService {
 
-    // @GET("/photos")
-    // Call<List<RetroPhoto>> getAllPhotos();
-
-    //@GET("/api/v2/pokemon?offset=0&limit=151")
-    //Call<RetroPokemon> getAllPokemons();
-
-    @GET("/VectoorSK/TravelAPI/master/travels2.json")
+    @GET("/VectoorSK/TravelAPI/master/travels.json")
     Call<List<Travel>> getAllTravels();
 
     @GET("/VectoorSK/TravelAPI/master/countries.json")

@@ -40,14 +40,6 @@ public class ViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
 
-    /*public ViewActivity() {
-        //
-    }
-
-    @Override
-    protected View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_view, container, false);*/
-
         progressDialog = new ProgressDialog(ViewActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
@@ -93,10 +85,8 @@ public class ViewActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ViewActivity.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        // put this after your definition of your recyclerview
-        // input in your data mode in this example a java.util.List, adjust if necessary
-        // adapter is your adapter
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
+
+        /*ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
             new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                 @Override
                 public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -115,7 +105,7 @@ public class ViewActivity extends AppCompatActivity {
                 }
             };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(recyclerView);*/
     }
 
     private void openDetails (Travel travel) {

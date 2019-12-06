@@ -17,13 +17,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String TOTAL_COUNT = "total_count";
 
     public void randomMe (View view) {
-        Intent randomIntent = new Intent(this, VisitedMapActivity.class);
-        //randomIntent.putExtra(TOTAL_COUNT, 10);
-        startActivity(randomIntent);
+        Intent mapsIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapsIntent);
     }
 
     public void openCountryMaps (View view) {
-        Intent mapsIntent = new Intent(this, MapsActivity.class);
+        Intent mapsIntent = new Intent(this, VisitedMapActivity.class);
         startActivity(mapsIntent);
     }
 
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openView (View view) {
-        // Create an Intent to start the second activity
         Intent viewIntent = new Intent(this, ViewActivity.class);
         startActivity(viewIntent);
     }
