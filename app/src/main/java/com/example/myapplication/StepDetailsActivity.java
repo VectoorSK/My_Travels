@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.adapter.ImgAdapter;
 import com.example.myapplication.model.Travel;
 import com.example.myapplication.model.Img;
 import com.example.myapplication.model.Step;

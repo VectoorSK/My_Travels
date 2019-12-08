@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.myapplication.activity.NavBarActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -14,10 +16,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    private static final String TOTAL_COUNT = "total_count";
+    public void openView (View view) {
+        Intent viewIntent = new Intent(this, ViewActivity.class);
+        startActivity(viewIntent);
+    }
 
-    public void randomMe (View view) {
-        Intent mapsIntent = new Intent(this, MapsActivity.class);
+    public void openTravelMaps (View view) {
+        Intent mapsIntent = new Intent(this, AllTravelMapsActivity.class);
         startActivity(mapsIntent);
     }
 
@@ -26,13 +31,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(mapsIntent);
     }
 
-    public void openTravelMaps (View view) {
-        Intent mapsIntent = new Intent(this, AllTravelMapsActivity.class);
-        startActivity(mapsIntent);
-    }
-
-    public void openView (View view) {
-        Intent viewIntent = new Intent(this, ViewActivity.class);
-        startActivity(viewIntent);
+    public void randomMe (View view) {
+        //Intent mapsIntent = new Intent(this, MapsActivity.class);
+        //startActivity(mapsIntent);
+        Intent intent = new Intent(this, NavBarActivity.class);
+        startActivity(intent);
     }
 }

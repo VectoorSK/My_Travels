@@ -1,16 +1,26 @@
-package com.example.myapplication;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.myapplication.activity.ui.travel;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.myapplication.DetailsActivity;
+import com.example.myapplication.R;
+import com.example.myapplication.ViewActivity;
 import com.example.myapplication.adapter.MyAdapter;
 import com.example.myapplication.model.Travel;
 import com.example.myapplication.network.GetDataService;
@@ -24,21 +34,42 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+public class TravelFragment extends Fragment {
 
-public class ViewActivity extends AppCompatActivity {
-
-
+    private TravelViewModel travelViewModel;
     private MyAdapter adapter;
     private RecyclerView recyclerView;
     private List<Travel> datalist;
     ProgressDialog progressDialog;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        progressDialog = new ProgressDialog(ViewActivity.this);
+        loadTravelList();
+
+        travelViewModel = ViewModelProviders.of(this).get(TravelViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_travel, container, false);
+        //final TextView textView = root.findViewById(R.id.text_nav_map);
+        travelViewModel.getText().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                //textView.setText(s);
+            }
+        });
+        Button button = (Button) root.findViewById(R.id.sort_button);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                sort_by();
+            }
+        });
+        return root;
+    }
+
+    private void loadTravelList() {
+
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
@@ -65,38 +96,37 @@ public class ViewActivity extends AppCompatActivity {
                 System.out.println(call);
                 System.out.println(t);
                 progressDialog.dismiss();
-                Toast.makeText(ViewActivity.this, "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-        //return view;
     }
 
     //Method to generate List of data using RecyclerView with custom adapter
     private void generateDataList(final List<Travel> list) {
-        recyclerView = findViewById(R.id.my_recycler_view);
-        adapter = new MyAdapter(this, list, new MyAdapter.OnItemClickListener() {
+        recyclerView = getActivity().findViewById(R.id.my_recycler_view);
+        adapter = new MyAdapter(getContext(), list, new MyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Travel travel) {
                 openDetails(travel);
             }
         });
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ViewActivity.this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
     private void openDetails (Travel travel) {
 
-        Intent detailsIntent = new Intent(this, DetailsActivity.class);
+        Intent detailsIntent = new Intent(getContext(), DetailsActivity.class);
 
         detailsIntent.putExtra("id", travel.getId());
         startActivity(detailsIntent);
     }
 
     private int sort = 0;
-    private String sort_cat = "date";
+    private String sort_cat = "  date";
 
-    public void sort_by (View view) {
+    public void sort_by () {
         if (sort == 0) {
             Collections.sort(datalist, new Comparator<Travel>() {
                 @Override
@@ -127,7 +157,7 @@ public class ViewActivity extends AppCompatActivity {
         }
         generateDataList(datalist);
         adapter.notifyDataSetChanged();
-        TextView sort_text = (TextView) findViewById(R.id.sort_button);
+        TextView sort_text = (TextView) getActivity().findViewById(R.id.sort_button);
         sort_text.setText(sort_cat);
     }
 }

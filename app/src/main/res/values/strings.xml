@@ -3,8 +3,8 @@
     <string name="app_name">My Travels</string>
     <string name="hello_text">0</string>
     <string name="travel_btn">Travels</string>
-    <string name="count_btn">Count</string>
-    <string name="random_btn">Rand</string>
+    <string name="maps_btn">Maps</string>
+    <string name="visited_btn">Visited Countries</string>
     <!-- RANDOM ACTIVITY -->
     <string name="rand_text">Here is a random number between 0 and %1d</string>
     <string name="rand_cnt">R</string>
@@ -14,5 +14,9 @@
     <string name="title_activity_travel_maps">Map</string>
     <string name="title_activity_all_travel_maps">Map</string>
     <string name="title_activity_test">Map</string>
+    <string name="title_activity_nav_bar">NavBarActivity</string>
+    <string name="title_travel">Voyages</string>
+    <string name="title_map">Carte</string>
+    <string name="title_visited">Pays visités</string>
     <!-- VIEW ACTIVITY -->
 </resources>

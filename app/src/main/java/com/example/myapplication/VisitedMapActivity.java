@@ -113,19 +113,18 @@ public class VisitedMapActivity extends FragmentActivity implements OnMapReadyCa
                         //mMap.addMarker(new MarkerOptions().position(latLng));
                     }
                     if (travel.getContinent().matches("Europe")) {
-                        polygon.fillColor(0x8079ADDC).strokeColor(0xFF79ADDC);
+                        polygon.fillColor(0x8075C5DC).strokeColor(0xFF75C5DC);
                     } else if (travel.getContinent().matches("Afrique")) {
-                        polygon.fillColor(0x80FFEE93).strokeColor(0xFFFFEE93);
+                        polygon.fillColor(0x80FFD355).strokeColor(0xFFFFD355);
                     } else if (travel.getContinent().matches("Asie")) {
-                        polygon.fillColor(0x80FFC09F).strokeColor(0xFFFFC09F);
+                        polygon.fillColor(0x80FF9466).strokeColor(0xFFFF9466);
                     } else if (travel.getContinent().matches("Amerique du Sud")) {
-                        polygon.fillColor(0x80C6FF00).strokeColor(0xFFC6FF00);
+                        polygon.fillColor(0x80588F27).strokeColor(0xFF588F27);
                     } else if (travel.getContinent().matches("Amerique du Nord")) {
-                        polygon.fillColor(0x80ADF7B6).strokeColor(0xFFADF7B6);
+                        polygon.fillColor(0x80A9CF54).strokeColor(0xFFA9CF54);
                     } else if (travel.getContinent().matches("Océanie")) {
-                        polygon.fillColor(0x80BA68C8).strokeColor(0xFFBA68C8);
+                        polygon.fillColor(0x80EF476F).strokeColor(0xFFEF476F);
                     }
-                    polygon.fillColor(0x8079ADDC).strokeColor(0xFF79ADDC);
                     mMap.addPolygon(polygon);
                     break;
                 }
