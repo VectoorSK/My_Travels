@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.activity.ui.travel.DetailFragment;
+import com.example.myapplication.activity.ui.travel.StepDetailFragment;
 import com.example.myapplication.adapter.StepsAdapter;
 import com.example.myapplication.model.Travel;
 import com.example.myapplication.model.Step;
@@ -106,27 +109,6 @@ public class DetailsActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DetailsActivity.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-        /*ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
-            new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-                @Override
-                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                    return false;
-                }
-                @Override
-                public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                    if(swipeDir == ItemTouchHelper.LEFT) {
-                        Step step = list.get(viewHolder.getAdapterPosition());
-                        openDetails(step);
-                    } else {
-                        //list.remove(viewHolder.getAdapterPosition());
-                        //adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);*/
     }
 
     private void openDetails (Step step) {

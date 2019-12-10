@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,7 +37,7 @@ import retrofit2.Response;
 
 public class TravelFragment extends Fragment {
 
-    private TravelViewModel travelViewModel;
+    //private TravelViewModel travelViewModel;
     private MyAdapter adapter;
     private RecyclerView recyclerView;
     private List<Travel> datalist;
@@ -46,15 +47,15 @@ public class TravelFragment extends Fragment {
 
         loadTravelList();
 
-        travelViewModel = ViewModelProviders.of(this).get(TravelViewModel.class);
+        //travelViewModel = ViewModelProviders.of(this).get(TravelViewModel.class);
         View root = inflater.inflate(R.layout.fragment_travel, container, false);
         //final TextView textView = root.findViewById(R.id.text_nav_map);
-        travelViewModel.getText().observe(this, new Observer<String>() {
+        /*travelViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 //textView.setText(s);
             }
-        });
+        });*/
         Button button = (Button) root.findViewById(R.id.sort_button);
         button.setOnClickListener(new View.OnClickListener()
         {
@@ -117,10 +118,22 @@ public class TravelFragment extends Fragment {
 
     private void openDetails (Travel travel) {
 
-        Intent detailsIntent = new Intent(getContext(), DetailsActivity.class);
+        DetailFragment detailFragment = new DetailFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString( "id" , travel.getId().toString());
+        detailFragment.setArguments(arguments);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment, detailFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        /*FragmentTransaction fragmentTransaction = getActivity()
+                .getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment, new DetailFragment());
+        fragmentTransaction.commit();*/
 
-        detailsIntent.putExtra("id", travel.getId());
-        startActivity(detailsIntent);
+        //Intent detailsIntent = new Intent(getContext(), DetailsActivity.class);
+        //detailsIntent.putExtra("id", travel.getId());
+        //startActivity(detailsIntent);
     }
 
     private int sort = 0;
