@@ -80,7 +80,7 @@ public class DetailFragment extends Fragment {
                 String from = response.body().get(id).getDate_from();
                 String to = response.body().get(id).getDate_to();
                 String desc = response.body().get(id).getDesc();
-                loadDetails(name, flag, from, to, desc);
+                showDetails(name, flag, from, to, desc);
             }
 
             @Override
@@ -93,7 +93,7 @@ public class DetailFragment extends Fragment {
         });
     }
 
-    private void loadDetails (String name, String flag, String from, String to, String desc) {
+    private void showDetails (String name, String flag, String from, String to, String desc) {
         TextView nameView = (TextView) getView().findViewById(R.id.det_name);
         nameView.setText(name);
 
@@ -107,11 +107,53 @@ public class DetailFragment extends Fragment {
                 .into(flagView);
 
         TextView dateView = (TextView) getView().findViewById(R.id.det_date);
-        String date = "From: " + from + "\nTo: " + to;
+        String date = "du " + from + "\nau " + to;
         dateView.setText(date);
 
         TextView descView = (TextView) getView().findViewById(R.id.det_desc);
         descView.setText(desc);
+
+        String kms = String.format("%.0f", calculKms());
+        TextView kmsView = (TextView) getView().findViewById(R.id.det_kms);
+        if (kms.matches("0")) {
+            kmsView.setText("");
+        } else {
+            kmsView.setText(kms + " km");
+        }
+    }
+
+    private double calculKms() {
+        double kms = 0;
+        for (Step step : datalist) {
+            double lat1, lng1, lat2, lng2;
+            lat1 = step.getLat();
+            lng1 = step.getLng();
+            if (step.getId() != datalist.size() - 1) {
+                lat2 = datalist.get(step.getId() + 1).getLat();
+                lng2 = datalist.get(step.getId() + 1).getLng();
+            } else {
+                lat2 = datalist.get(0).getLat();
+                lng2 = datalist.get(0).getLng();
+            }
+            System.out.println("from " + step.getCity() + " = " + distKmFromCoord(lat1, lng1, lat2, lng2));
+            kms += distKmFromCoord(lat1, lng1, lat2, lng2);
+        }
+        return kms;
+    }
+
+    private double degreesToRadians(double degrees) {
+        return degrees * Math.PI / 180;
+    }
+
+    private double distKmFromCoord(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadiusKm = 6371;
+        double dLat = degreesToRadians(lat2-lat1);
+        double dLon = degreesToRadians(lng2-lng1);
+        lat1 = degreesToRadians(lat1);
+        lat2 = degreesToRadians(lat2);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return earthRadiusKm * c;
     }
 
     private void generateSteps(final List<Step> list) {
@@ -142,13 +184,6 @@ public class DetailFragment extends Fragment {
         fragmentTransaction.replace(R.id.nav_host_fragment, stepDetailFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
-        //Intent detailsIntent = new Intent(getContext(), StepDetailsActivity.class);
-        //int travel_id = getIntent().getIntExtra("id", 0);
-        //int travel_id = 0;
-        //detailsIntent.putExtra("travel_id", travel_id);
-        //detailsIntent.putExtra("step_id", step.getId());
-        //startActivity(detailsIntent);
     }
 
     public void openTravelMaps (View view) {

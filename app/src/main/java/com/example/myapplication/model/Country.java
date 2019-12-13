@@ -5,28 +5,31 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Country {
-    @SerializedName("country")
-    private String country;
+    @SerializedName("code")
+    private String code;
     @SerializedName("latitude")
     private double latitude;
     @SerializedName("longitude")
     private double longitude;
-    @SerializedName("name")
-    private String name;
+    @SerializedName("country")
+    private String country;
+    @SerializedName("continent")
+    private String continent;
 
-    public Country(String country, double latitude, double longitude, String name) {
-        this.country = country;
+    public Country(String code, double latitude, double longitude, String country, String continent) {
+        this.code = code;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.name = name;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
         this.country = country;
+        this.continent = continent;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public double getLatitude() {
@@ -45,11 +48,19 @@ public class Country {
         this.longitude = longitude;
     }
 
-    public String getName() {
-        return name;
+    public String getCountry() {
+        return country;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getContinent() {
+        return continent;
+    }
+
+    public void setContinent(String continent) {
+        this.continent = continent;
     }
 }

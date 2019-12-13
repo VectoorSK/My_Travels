@@ -37,7 +37,6 @@ import retrofit2.Response;
 
 public class TravelFragment extends Fragment {
 
-    //private TravelViewModel travelViewModel;
     private MyAdapter adapter;
     private RecyclerView recyclerView;
     private List<Travel> datalist;
@@ -47,15 +46,7 @@ public class TravelFragment extends Fragment {
 
         loadTravelList();
 
-        //travelViewModel = ViewModelProviders.of(this).get(TravelViewModel.class);
         View root = inflater.inflate(R.layout.fragment_travel, container, false);
-        //final TextView textView = root.findViewById(R.id.text_nav_map);
-        /*travelViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
-            }
-        });*/
         Button button = (Button) root.findViewById(R.id.sort_button);
         button.setOnClickListener(new View.OnClickListener()
         {
