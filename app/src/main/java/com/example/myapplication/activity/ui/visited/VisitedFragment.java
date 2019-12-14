@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +35,19 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
@@ -105,28 +114,47 @@ public class VisitedFragment extends Fragment {
     }
 
     private void drawView() {
-        List<String> codeList = new ArrayList<>();
-        int nb_eur = 0, nb_afr = 0, nb_asie = 0, nb_amn = 0, nb_ams = 0, nb_oce = 0, nb_ant = 0, nb_tot = 0;
+        List<String> eur = new ArrayList<>();
+        List<String> afr = new ArrayList<>();
+        List<String> asie = new ArrayList<>();
+        List<String> amn = new ArrayList<>();
+        List<String> ams = new ArrayList<>();
+        List<String> oce = new ArrayList<>();
+        List<String> ant = new ArrayList<>();
+        List<String> all = new ArrayList<>();
         for (Travel travel : travelList) {
-            if (!codeList.contains(travel.getCode())) {
-                codeList.add(travel.getCode());
-            }
             if (travel.getContinent().matches("Europe")) {
-                nb_eur++;
+                if(!eur.contains(travel.getCountry())) {
+                    eur.add(travel.getCountry());
+                }
             } else if (travel.getContinent().matches("Afrique")) {
-                nb_afr++;
+                if(!afr.contains(travel.getCountry())) {
+                    afr.add(travel.getCountry());
+                }
             } else if (travel.getContinent().matches("Asie")) {
-                nb_asie++;
+                if(!asie.contains(travel.getCountry())) {
+                    asie.add(travel.getCountry());
+                }
             } else if (travel.getContinent().matches("Amerique du Nord")) {
-                nb_amn++;
+                if(!amn.contains(travel.getCountry())) {
+                    amn.add(travel.getCountry());
+                }
             } else if (travel.getContinent().matches("Amerique du Sud")) {
-                nb_ams++;
+                if(!ams.contains(travel.getCountry())) {
+                    ams.add(travel.getCountry());
+                }
             } else if (travel.getContinent().matches("Océanie")) {
-                nb_oce++;
+                if(!oce.contains(travel.getCountry())) {
+                    oce.add(travel.getCountry());
+                }
             } else {
-                nb_ant++;
+                if(!ant.contains(travel.getCountry())) {
+                    ant.add(travel.getCountry());
+                }
             }
-            nb_tot++;
+            if(!all.contains(travel.getCountry())) {
+                all.add(travel.getCountry());
+            }
         }
         int tot_eur = 0, tot_afr = 0, tot_asie = 0, tot_amn = 0, tot_ams = 0, tot_oce = 0, tot_ant = 0;
         for (Country country : countryList) {
@@ -147,28 +175,96 @@ public class VisitedFragment extends Fragment {
             }
         }
 
+        // Total pays visités
         TextView pays_prct = (TextView) getView().findViewById(R.id.stat_percent);
-        pays_prct.setText(pays_prct.getText() + String.valueOf(codeList.size()) + "/" + String.valueOf(countryList.size()));
+        pays_prct.setText(String.valueOf(all.size()));
+
+        // Total distance parcouru
+        TextView tot_dist = (TextView) getView().findViewById(R.id.stat_dist);
+        tot_dist.setText(String.valueOf(Math.round(calculTotalDist())) + " km");
+
+        // Distance Max atteinte
+        TextView farest_dist = (TextView) getView().findViewById(R.id.stat_farest_pnt);
+        farest_dist.setText(calculMostFar()[3] + " km");
+
+        // Total temps en voyage
+        TextView time_spend = (TextView) getView().findViewById(R.id.stat_time);
+        String time = "";
+        try {
+            time = calculTimeSpend();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        time_spend.setText(time);
+
+
+        Picasso.Builder builder = new Picasso.Builder(getContext());
+        builder.downloader(new OkHttp3Downloader(getContext()));
+        Picasso picasso = builder.build();
+
+        // Pays le plus visité (nombre)
+        TextView most_visited = (TextView) getView().findViewById(R.id.stat_most_visited);
+        most_visited.setText(calculMostVisited()[0] + "\n(" + calculMostVisited()[2] + " fois)");
+        ImageView most_visited_icon = (ImageView) getView().findViewById(R.id.stat_ic_most_visited);
+        picasso.load(calculMostVisited()[1])
+                .placeholder((R.drawable.ic_launcher_background))
+                .error(R.drawable.ic_launcher_background)
+                .into(most_visited_icon);
+
+        // Pays avec le plus de distance
+        TextView most_dist = (TextView) getView().findViewById(R.id.stat_most_dist);
+        most_dist.setText(calculMostDist()[0] + "\n(" + calculMostDist()[2] + " km)");
+        ImageView most_dist_icon = (ImageView) getView().findViewById(R.id.stat_ic_most_dist);
+        picasso.load(calculMostDist()[1])
+                .placeholder((R.drawable.ic_launcher_background))
+                .error(R.drawable.ic_launcher_background)
+                .into(most_dist_icon);
+
+        // Pays le plus loin
+        TextView most_far = (TextView) getView().findViewById(R.id.stat_most_far);
+        most_far.setText(calculMostFar()[0] + "\n(" + calculMostFar()[1] + ")");
+        ImageView most_far_icon = (ImageView) getView().findViewById(R.id.stat_ic_most_far);
+        picasso.load(calculMostFar()[2])
+                .placeholder((R.drawable.ic_launcher_background))
+                .error(R.drawable.ic_launcher_background)
+                .into(most_far_icon);
+
+        // Pays le plus visité (temps)
+        String most_time_count = "", most_time_flag = "", most_time_day = "";
+        try {
+            most_time_count = calculMostTime()[0];
+            most_time_flag = calculMostTime()[1];
+            most_time_day = calculMostTime()[2];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        TextView most_time_spend = (TextView) getView().findViewById(R.id.stat_most_time);
+        most_time_spend.setText(most_time_count + "\n(" + most_time_day + " jours)");
+        ImageView most_time_icon = (ImageView) getView().findViewById(R.id.stat_ic_most_time);
+        picasso.load(most_time_flag)
+                .placeholder((R.drawable.ic_launcher_background))
+                .error(R.drawable.ic_launcher_background)
+                .into(most_time_icon);
 
         TextView eur_prct = (TextView) getView().findViewById(R.id.stat_eur_percent);
-        eur_prct.setText(eur_prct.getText() + String.valueOf(nb_eur) + "/" + String.valueOf(tot_eur));
+        eur_prct.setText(String.valueOf(eur.size()) + "/" + String.valueOf(tot_eur));
         TextView afr_prct = (TextView) getView().findViewById(R.id.stat_afr_percent);
-        afr_prct.setText(afr_prct.getText() + String.valueOf(nb_afr) + "/" + String.valueOf(tot_afr));
+        afr_prct.setText(String.valueOf(afr.size()) + "/" + String.valueOf(tot_afr));
         TextView asie_prct = (TextView) getView().findViewById(R.id.stat_asie_percent);
-        asie_prct.setText(asie_prct.getText() + String.valueOf(nb_asie) + "/" + String.valueOf(tot_asie));
+        asie_prct.setText(String.valueOf(asie.size()) + "/" + String.valueOf(tot_asie));
         TextView amn_prct = (TextView) getView().findViewById(R.id.stat_amn_percent);
-        amn_prct.setText(amn_prct.getText() + String.valueOf(nb_amn) + "/" + String.valueOf(tot_amn));
+        amn_prct.setText(String.valueOf(amn.size()) + "/" + String.valueOf(tot_amn));
         TextView ams_prct = (TextView) getView().findViewById(R.id.stat_ams_percent);
-        ams_prct.setText(ams_prct.getText() + String.valueOf(nb_ams) + "/" + String.valueOf(tot_ams));
+        ams_prct.setText(String.valueOf(ams.size()) + "/" + String.valueOf(tot_ams));
         TextView oce_prct = (TextView) getView().findViewById(R.id.stat_oce_percent);
-        oce_prct.setText(oce_prct.getText() + String.valueOf(nb_oce) + "/" + String.valueOf(tot_oce));
+        oce_prct.setText(String.valueOf(oce.size()) + "/" + String.valueOf(tot_oce));
         TextView ant_prct = (TextView) getView().findViewById(R.id.stat_ant_percent);
-        ant_prct.setText(ant_prct.getText() + String.valueOf(nb_ant) + "/" + String.valueOf(tot_ant));
+        ant_prct.setText(String.valueOf(ant.size()) + "/" + String.valueOf(tot_ant));
 
-        int[] arr_nb_cont = { nb_eur, nb_afr, nb_asie, nb_amn, nb_ams, nb_oce, nb_ant };
+        int[] arr_nb_cont = { eur.size(), afr.size(), asie.size(), amn.size(), ams.size(), oce.size(), ant.size() };
         String[] arr_title_cont = { "Europe", "Afrique", "Asie", "Amérique du Nord", "Amérique du Sud", "Océanie", "Antartique" };
         int[] arr_clr_cont = { 0xff3b5998, 0xffffd355, 0xffff9466, 0xfff44336, 0xff0392cf, 0xff028900, 0xffffffff };
-        drawContinentChart(nb_tot, arr_nb_cont, arr_title_cont, arr_clr_cont);
+        drawContinentChart(all.size(), arr_nb_cont, arr_title_cont, arr_clr_cont);
     }
 
     private void drawContinentChart(int nb_tot, int[] arr_nb_cont, String[] arr_title_cont, int[] arr_clr_cont) {
@@ -187,5 +283,163 @@ public class VisitedFragment extends Fragment {
         pieChartData.setValueLabelsTextColor(0xff000000);
         //pieChartData.setHasCenterCircle(true).setCenterText1("Répartition").setCenterText1FontSize(20);
         pieChartView.setPieChartData(pieChartData);
+    }
+
+    private double calculTotalDist() {
+        double kms = 0;
+        for (Travel travel : travelList) {
+            List<Step> stepList = travel.getSteps_array();
+            for (Step step : stepList) {
+                double lat1, lng1, lat2, lng2;
+                lat1 = step.getLat();
+                lng1 = step.getLng();
+                if (step.getId() != stepList.size() - 1) {
+                    lat2 = stepList.get(step.getId() + 1).getLat();
+                    lng2 = stepList.get(step.getId() + 1).getLng();
+                } else {
+                    lat2 = stepList.get(0).getLat();
+                    lng2 = stepList.get(0).getLng();
+                }
+                kms += distKmFromCoord(lat1, lng1, lat2, lng2);
+            }
+        }
+        return kms;
+    }
+
+    private String calculTimeSpend() throws Exception {
+        long diff_in_sec = 0;
+        for (Travel travel : travelList) {
+            Date date_start = new SimpleDateFormat("yyyy/MM/dd").parse(travel.getDate_from());
+            Date date_end = new SimpleDateFormat("yyyy/MM/dd").parse(travel.getDate_to());
+            diff_in_sec += Math.abs(date_end.getTime() - date_start.getTime()) / 1000;
+        }
+        int nb_day = (int) TimeUnit.SECONDS.toDays(diff_in_sec);
+        return String.valueOf(nb_day) + " jours";
+    }
+
+    private String[] calculMostVisited() {
+        Map<String, Integer> map = new HashMap<>();
+        for (Travel travel : travelList) {
+            Integer val = map.get(travel.getCountry());
+            map.put(travel.getCountry(), val == null ? 1 : val + 1);
+        }
+        Map.Entry<String, Integer> max = null;
+        for (Map.Entry<String, Integer> e : map.entrySet()) {
+            if (max == null || e.getValue() > max.getValue()) {
+                max = e;
+            }
+        }
+
+        String[] res = new String[3];
+        res[0] = max.getKey();
+        res[2] = String.valueOf(max.getValue());
+        for (Travel travel : travelList) {
+            if (travel.getCountry().matches(res[0])) {
+                res[1] = travel.getFlag();
+                break;
+            }
+        }
+        return res;
+    }
+
+    private String[] calculMostDist() {
+        String country = "";
+        String flag = "";
+        double max_dist = 0;
+        for (Travel travel : travelList) {
+            double kms = 0;
+            List<Step> stepList = travel.getSteps_array();
+            for (Step step : stepList) {
+                double lat1, lng1, lat2, lng2;
+                lat1 = step.getLat();
+                lng1 = step.getLng();
+                if (step.getId() != stepList.size() - 1) {
+                    lat2 = stepList.get(step.getId() + 1).getLat();
+                    lng2 = stepList.get(step.getId() + 1).getLng();
+                } else {
+                    lat2 = stepList.get(0).getLat();
+                    lng2 = stepList.get(0).getLng();
+                }
+                kms += distKmFromCoord(lat1, lng1, lat2, lng2);
+            }
+            if (max_dist < kms) {
+                max_dist = kms;
+                country = travel.getCountry();
+                flag = travel.getFlag();
+            }
+        }
+        String[] res = new String[3];
+        res[0] = country;
+        res[1] = flag;
+        res[2] = String.format("%.0f", max_dist);
+        return res;
+    }
+
+    private String[] calculMostFar() {
+        String country = "";
+        String city = "";
+        String flag = "";
+        double max_dist = 0;
+        for (Travel travel : travelList) {
+            List<Step> stepList = travel.getSteps_array();
+            for (Step step : stepList) {
+                double lat1, lng1, lat2, lng2;
+                lat1 = 48.852310;
+                lng1 = 2.146690;
+                lat2 = step.getLat();
+                lng2 = step.getLng();
+                if (distKmFromCoord(lat1, lng1, lat2, lng2) > max_dist) {
+                    max_dist = distKmFromCoord(lat1, lng1, lat2, lng2);
+                    city = step.getCity();
+                    country = travel.getCountry();
+                    flag = travel.getFlag();
+                }
+            }
+        }
+        String[] res = new String[4];
+        res[0] = country;
+        res[1] = city;
+        res[2] = flag;
+        res[3] = String.format("%.0f", max_dist);
+        return res;
+    }
+
+    private String[] calculMostTime() throws Exception {
+
+        String country = "";
+        String flag = "";
+        long max_time = 0;
+        for (Travel travel : travelList) {
+            Date date_start = new SimpleDateFormat("yyyy/MM/dd").parse(travel.getDate_from());
+            Date date_end = new SimpleDateFormat("yyyy/MM/dd").parse(travel.getDate_to());
+            long diff = Math.abs(date_end.getTime() - date_start.getTime()) / 1000;
+            if (max_time < diff) {
+                max_time = diff;
+                country = travel.getCountry();
+                flag = travel.getFlag();
+            }
+        }
+        int nb_day = (int) TimeUnit.SECONDS.toDays(max_time);
+
+        String[] res = new String[3];
+        res[0] = country;
+        res[1] = flag;
+        res[2] = String.valueOf(nb_day);
+        return res;
+    }
+
+    private double degreesToRadians(double degrees) {
+        return degrees * Math.PI / 180;
+    }
+
+    private double distKmFromCoord(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadiusKm = 6371;
+        double dLat = degreesToRadians(lat2-lat1);
+        double dLon = degreesToRadians(lng2-lng1);
+        lat1 = degreesToRadians(lat1);
+        lat2 = degreesToRadians(lat2);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return earthRadiusKm * c;
     }
 }

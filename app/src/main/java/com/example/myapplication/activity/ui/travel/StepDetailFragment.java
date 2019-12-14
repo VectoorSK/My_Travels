@@ -144,6 +144,7 @@ public class StepDetailFragment extends Fragment {
         //startActivity(fullIntent);
     }
 
+    // TODO: create fragment
     public void openGMaps(View view) {
         Intent mapsIntent = new Intent(getContext(), CityMapsActivity.class);
         mapsIntent.putExtra("latitude", latitude);

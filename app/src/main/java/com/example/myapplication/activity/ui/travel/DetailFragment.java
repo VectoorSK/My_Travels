@@ -186,6 +186,7 @@ public class DetailFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
+    // TODO: create fragment
     public void openTravelMaps (View view) {
 
         Intent travelMapsIntent = new Intent(getContext(), TravelMapsActivity.class);

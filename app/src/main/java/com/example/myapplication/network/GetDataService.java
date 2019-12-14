@@ -11,7 +11,7 @@ import retrofit2.http.GET;
 
 public interface GetDataService {
 
-    @GET("/VectoorSK/TravelAPI/master/travels.json")
+    @GET("/VectoorSK/TravelAPI/master/travels2.json")
     Call<List<Travel>> getAllTravels();
 
     @GET("/VectoorSK/TravelAPI/master/countries.json")
