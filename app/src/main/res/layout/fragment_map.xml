@@ -15,36 +15,28 @@
     </fragment>
     <!-- TODO: test change/remove tools:oontext -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        android:padding="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" >
 
-        <Button
+        <ImageView
             android:id="@+id/btn_map"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@android:color/background_light"
-            android:text="Voyages"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_visited"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_map_btn_travel_round"
+            android:text="Voyages" />
 
-        <Button
+        <ImageView
             android:id="@+id/btn_visited"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@android:color/background_light"
-            android:text="Pays"
-            app:layout_constraintStart_toEndOf="@id/btn_map"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="6dp"
+            android:src="@mipmap/ic_map_btn_country_round"
+            android:text="Pays" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

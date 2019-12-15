@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -78,14 +80,14 @@ public class MapFragment extends Fragment {
                 map = mMap;
                 loadBorders();
 
-                Button travelBtn = (Button) getView().findViewById(R.id.btn_map);
+                ImageView travelBtn = (ImageView) getView().findViewById(R.id.btn_map);
                 travelBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         drawTravels(travelList);
                     }
                 });
-                Button countryBtn = (Button) getView().findViewById(R.id.btn_visited);
+                ImageView countryBtn = (ImageView) getView().findViewById(R.id.btn_visited);
                 countryBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -175,30 +177,34 @@ public class MapFragment extends Fragment {
 
     private void drawCountries(List<Travel> travelList, List<Border> borderList) {
         map.clear();
+        List<String> drawed = new ArrayList<>();
         for (Travel travel : travelList) {
-            for (Border border : borderList) {
-                if (border.getCode().matches(travel.getCode())) {
-                    PolygonOptions polygon = new PolygonOptions().clickable(true);
-                    for (Coord point : border.getBorders()) {
-                        LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
-                        polygon.add(latLng);
-                        //mMap.addMarker(new MarkerOptions().position(latLng));
+            if (!drawed.contains(travel.getCode())) {
+                drawed.add(travel.getCode());
+                for (Border border : borderList) {
+                    if (border.getCode().matches(travel.getCode())) {
+                        PolygonOptions polygon = new PolygonOptions().clickable(true);
+                        for (Coord point : border.getBorders()) {
+                            LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
+                            polygon.add(latLng);
+                            //mMap.addMarker(new MarkerOptions().position(latLng));
+                        }
+                        if (travel.getContinent().matches("Europe")) {
+                            polygon.fillColor(0x803B5998).strokeColor(0xFF3B5998);
+                        } else if (travel.getContinent().matches("Afrique")) {
+                            polygon.fillColor(0x80FFD355).strokeColor(0xFFFFD355);
+                        } else if (travel.getContinent().matches("Asie")) {
+                            polygon.fillColor(0x80FF9466).strokeColor(0xFFFF9466);
+                        } else if (travel.getContinent().matches("Amerique du Nord")) {
+                            polygon.fillColor(0x80F44336).strokeColor(0xFFF44336);
+                        } else if (travel.getContinent().matches("Amerique du Sud")) {
+                            polygon.fillColor(0x800392CF).strokeColor(0xFF0392CF);
+                        } else if (travel.getContinent().matches("Océanie")) {
+                            polygon.fillColor(0x80028900).strokeColor(0xFF028900);
+                        }
+                        map.addPolygon(polygon);
+                        break;
                     }
-                    if (travel.getContinent().matches("Europe")) {
-                        polygon.fillColor(0x803B5998).strokeColor(0xFF3B5998);
-                    } else if (travel.getContinent().matches("Afrique")) {
-                        polygon.fillColor(0x80FFD355).strokeColor(0xFFFFD355);
-                    } else if (travel.getContinent().matches("Asie")) {
-                        polygon.fillColor(0x80FF9466).strokeColor(0xFFFF9466);
-                    } else if (travel.getContinent().matches("Amerique du Nord")) {
-                        polygon.fillColor(0x80F44336).strokeColor(0xFFF44336);
-                    } else if (travel.getContinent().matches("Amerique du Sud")) {
-                        polygon.fillColor(0x800392CF).strokeColor(0xFF0392CF);
-                    } else if (travel.getContinent().matches("Océanie")) {
-                        polygon.fillColor(0x80028900).strokeColor(0xFF028900);
-                    }
-                    map.addPolygon(polygon);
-                    break;
                 }
             }
         }

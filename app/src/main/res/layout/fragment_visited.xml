@@ -188,7 +188,6 @@
             android:id="@+id/stats_row2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:orientation="horizontal"
@@ -205,16 +204,15 @@
                     android:id="@+id/stat_ic_most_visited"
                     android:layout_width="50dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:scaleType="fitStart"
+                    android:scaleType="fitEnd"
                     android:src="@mipmap/ic_launcher" />
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="25dp"
-                    android:layout_marginTop="-50dp"
-                    android:layout_marginBottom="30dp"
-                    android:src="@mipmap/ic_logo_round" />
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginBottom="0dp"
+                    android:src="@drawable/number_one" />
                 <TextView
                     android:id="@+id/stat_most_visited"
                     android:layout_width="wrap_content"
@@ -233,16 +231,15 @@
                     android:id="@+id/stat_ic_most_dist"
                     android:layout_width="50dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:scaleType="fitStart"
+                    android:scaleType="fitEnd"
                     android:src="@mipmap/ic_launcher" />
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="25dp"
-                    android:layout_marginTop="-50dp"
-                    android:layout_marginBottom="30dp"
-                    android:src="@mipmap/ic_logo_round" />
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginBottom="0dp"
+                    android:src="@drawable/number_one" />
                 <TextView
                     android:id="@+id/stat_most_dist"
                     android:layout_width="wrap_content"
@@ -261,16 +258,15 @@
                     android:id="@+id/stat_ic_most_far"
                     android:layout_width="50dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:scaleType="fitStart"
+                    android:scaleType="fitEnd"
                     android:src="@mipmap/ic_launcher" />
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="25dp"
-                    android:layout_marginTop="-50dp"
-                    android:layout_marginBottom="30dp"
-                    android:src="@mipmap/ic_logo_round" />
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginBottom="0dp"
+                    android:src="@drawable/number_one" />
                 <TextView
                     android:id="@+id/stat_most_far"
                     android:layout_width="wrap_content"
@@ -289,16 +285,15 @@
                     android:id="@+id/stat_ic_most_time"
                     android:layout_width="50dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:scaleType="fitStart"
+                    android:scaleType="fitEnd"
                     android:src="@mipmap/ic_launcher" />
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="25dp"
-                    android:layout_marginTop="-50dp"
-                    android:layout_marginBottom="30dp"
-                    android:src="@mipmap/ic_logo_round" />
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginBottom="0dp"
+                    android:src="@drawable/number_one" />
                 <TextView
                     android:id="@+id/stat_most_time"
                     android:layout_width="wrap_content"

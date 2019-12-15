@@ -1,7 +1,6 @@
 package com.example.myapplication.activity.ui.visited;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,39 +9,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.example.myapplication.DetailsActivity;
 import com.example.myapplication.R;
-import com.example.myapplication.VisitedMapActivity;
-import com.example.myapplication.activity.ui.map.MapViewModel;
-import com.example.myapplication.model.Border;
-import com.example.myapplication.model.Coord;
 import com.example.myapplication.model.Country;
 import com.example.myapplication.model.Step;
 import com.example.myapplication.model.Travel;
 import com.example.myapplication.network.GetDataService;
 import com.example.myapplication.network.RetrofitClientInstance;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
