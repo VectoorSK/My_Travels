@@ -1,27 +1,16 @@
 package com.example.myapplication.activity.ui.map;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.example.myapplication.DetailsActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.model.Border;
 import com.example.myapplication.model.Coord;
@@ -32,18 +21,13 @@ import com.example.myapplication.network.RetrofitClientInstance;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -211,14 +195,5 @@ public class MapFragment extends Fragment {
     }
 
     private void openDetails (String country) {
-        int id = 0;
-        for (Travel travel : travelList) {
-            if (travel.getCountry().matches(country)) {
-                id = travel.getId();
-            }
-        }
-        Intent detailsIntent = new Intent(getContext(), DetailsActivity.class);
-        detailsIntent.putExtra("id", id);
-        startActivity(detailsIntent);
     }
 }

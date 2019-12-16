@@ -3,19 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DetailsActivity">
+    android:layout_height="match_parent">
 
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:elevation="4dp"
+        app:cardBackgroundColor="@android:color/background_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/travel_map_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="13dp"
+        android:onClick="openTravelMaps"
+        android:src="@drawable/ic_place_lightblue_24dp"
+        android:elevation="2dp"
+        android:text="map"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/det_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
         android:gravity="center"
         android:text="Pays"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="32sp"
-        app:layout_constraintEnd_toStartOf="@+id/det_flag"
-        app:layout_constraintStart_toStartOf="parent"
+        android:elevation="2dp"
+        app:layout_constraintStart_toEndOf="@id/travel_map_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -27,19 +48,19 @@
         android:src="@mipmap/ic_launcher"
         app:layout_constraintStart_toEndOf="@+id/det_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/top_bar" />
 
     <TextView
         android:id="@+id/det_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="16dp"
         android:text="date"
         android:textSize="14sp"
         android:gravity="center"
         app:layout_constraintEnd_toStartOf="@+id/det_flag"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/det_name" />
+        app:layout_constraintTop_toBottomOf="@+id/top_bar" />
     <TextView
         android:id="@+id/det_kms"
         android:layout_width="wrap_content"
@@ -71,19 +92,8 @@
         android:id="@+id/step_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/travel_map_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:onClick="openTravelMaps"
-        android:src="@drawable/ic_place_lightblue_24dp"
-        android:text="map"
-        app:layout_constraintEnd_toStartOf="@+id/det_name"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,6 @@
 package com.example.myapplication.activity.ui.travel;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +9,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.DetailsActivity;
 import com.example.myapplication.R;
-import com.example.myapplication.ViewActivity;
 import com.example.myapplication.adapter.MyAdapter;
 import com.example.myapplication.model.Travel;
 import com.example.myapplication.network.GetDataService;
@@ -117,14 +111,6 @@ public class TravelFragment extends Fragment {
         fragmentTransaction.replace(R.id.nav_host_fragment, detailFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        /*FragmentTransaction fragmentTransaction = getActivity()
-                .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, new DetailFragment());
-        fragmentTransaction.commit();*/
-
-        //Intent detailsIntent = new Intent(getContext(), DetailsActivity.class);
-        //detailsIntent.putExtra("id", travel.getId());
-        //startActivity(detailsIntent);
     }
 
     private int sort = 0;

@@ -1,12 +1,10 @@
 package com.example.myapplication.activity.ui.travel;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,16 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.DetailsActivity;
 import com.example.myapplication.R;
-import com.example.myapplication.StepDetailsActivity;
-import com.example.myapplication.TravelMapsActivity;
-import com.example.myapplication.adapter.MyAdapter;
 import com.example.myapplication.adapter.StepsAdapter;
 import com.example.myapplication.model.Step;
 import com.example.myapplication.model.Travel;
@@ -33,8 +25,6 @@ import com.example.myapplication.network.RetrofitClientInstance;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -50,14 +40,24 @@ public class DetailFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
         //int id_step = getIntent().getIntExtra("id", 0);
         Bundle arguments = getArguments();
         int id_step = Integer.parseInt(arguments.getString("id"));
         loadStep(id_step);
-
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ImageView map_btn = (ImageView) getView().findViewById(R.id.travel_map_btn);
+        map_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTravelMaps();
+            }
+        });
     }
 
 
@@ -174,8 +174,7 @@ public class DetailFragment extends Fragment {
         StepDetailFragment stepDetailFragment = new StepDetailFragment();
         Bundle arguments = new Bundle();
 
-        Bundle arg = getArguments();
-        String travel_id = arg.getString("id");
+        String travel_id = getArguments().getString("id");
         arguments.putString( "travel_id" , travel_id);
         arguments.putString( "step_id" , String.valueOf(step.getId()));
         stepDetailFragment.setArguments(arguments);
@@ -186,14 +185,26 @@ public class DetailFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    // TODO: create fragment
-    public void openTravelMaps (View view) {
+    public void openTravelMaps () {
 
-        Intent travelMapsIntent = new Intent(getContext(), TravelMapsActivity.class);
-        //int travel_id = getIntent().getIntExtra("id", 0);
-        int travel_id = 0;
-        travelMapsIntent.putExtra("id", travel_id);
-        startActivity(travelMapsIntent);
+        DetailMapFragment detailMapFragment = new DetailMapFragment();
+        Bundle arguments = new Bundle();
+
+        double[] listLatLng = new double[datalist.size()*2];
+        int i = 0;
+        for (Step step : datalist) {
+            listLatLng[i] = step.getLat();
+            listLatLng[i+1] = step.getLng();
+            i+=2;
+        }
+
+        arguments.putDoubleArray("list_lat_lng", listLatLng);
+        detailMapFragment.setArguments(arguments);
+
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment, detailMapFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 }

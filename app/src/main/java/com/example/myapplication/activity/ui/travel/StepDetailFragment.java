@@ -1,7 +1,6 @@
 package com.example.myapplication.activity.ui.travel;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +10,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.CityMapsActivity;
-import com.example.myapplication.FullscreenImg;
 import com.example.myapplication.R;
-import com.example.myapplication.StepDetailsActivity;
-import com.example.myapplication.TravelMapsActivity;
 import com.example.myapplication.adapter.ImgAdapter;
-import com.example.myapplication.adapter.StepsAdapter;
 import com.example.myapplication.model.Img;
 import com.example.myapplication.model.Step;
 import com.example.myapplication.model.Travel;
@@ -44,7 +38,6 @@ public class StepDetailFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Img> datalist;
     ProgressDialog progressDialog;
-
     private double latitude;
     private double longitude;
 
@@ -57,6 +50,18 @@ public class StepDetailFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_step_detail, container, false);
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ImageView map_btn = (ImageView) getView().findViewById(R.id.img_map_btn);
+        map_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGMaps();
+            }
+        });
     }
 
     private void loadImgs(final int id_travel, final int id_step) {
@@ -137,19 +142,20 @@ public class StepDetailFragment extends Fragment {
         fragmentTransaction.replace(R.id.nav_host_fragment, fullscreenImgFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
-        //Intent fullIntent = new Intent(getContext(), FullscreenImg.class);
-        //fullIntent.putExtra("url", img.getUrl());
-        //fullIntent.putExtra("caption", img.getCaption());
-        //startActivity(fullIntent);
     }
 
-    // TODO: create fragment
-    public void openGMaps(View view) {
-        Intent mapsIntent = new Intent(getContext(), CityMapsActivity.class);
-        mapsIntent.putExtra("latitude", latitude);
-        mapsIntent.putExtra("longitude", longitude);
-        startActivity(mapsIntent);
+    public void openGMaps() {
+
+        StepDetailMapFragment stepDetailMapFragment = new StepDetailMapFragment();
+        Bundle arguments = new Bundle();
+        arguments.putDouble("lat", latitude);
+        arguments.putDouble("lng", longitude);
+        stepDetailMapFragment.setArguments(arguments);
+
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment, stepDetailMapFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 }
