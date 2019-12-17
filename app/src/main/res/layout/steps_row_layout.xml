@@ -11,6 +11,7 @@
         android:id="@+id/steps_icon"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:scaleType="centerCrop"
         android:contentDescription="TODO"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,25 +20,25 @@
 
     <TextView
         android:id="@+id/steps_title"
-        android:layout_width="180dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:layout_marginLeft="16dp"
         android:gravity="center_vertical"
         android:text="Example application"
         android:textSize="16sp"
         app:layout_constraintLeft_toRightOf="@id/steps_icon"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/steps_description"
-        android:layout_width="180dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginLeft="166dp"
         android:text="Description"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/steps_icon"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/steps_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

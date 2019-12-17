@@ -25,7 +25,10 @@ import com.example.myapplication.network.RetrofitClientInstance;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,6 +100,10 @@ public class DetailFragment extends Fragment {
         TextView nameView = (TextView) getView().findViewById(R.id.det_name);
         nameView.setText(name);
 
+        TextView stepView = (TextView) getView().findViewById(R.id.det_nb_step);
+        String plural = datalist.size() == 1 ? "" : "s";
+        stepView.setText(datalist.size() + " étape" + plural);
+
         ImageView flagView = (ImageView) getView().findViewById(R.id.det_flag);
         Picasso.Builder builder = new Picasso.Builder(getContext());
         builder.downloader(new OkHttp3Downloader(getContext()));
@@ -106,8 +113,19 @@ public class DetailFragment extends Fragment {
                 .error(R.drawable.ic_launcher_background)
                 .into(flagView);
 
+        TextView nbDayView = (TextView) getView().findViewById(R.id.det_nb_day);
+        String nb_day = "";
+        try {
+            int nb = dayBetweenStrDates(from, to);
+            plural = nb == 1 ? "" : "s";
+            nb_day = nb + " jour" + plural;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        nbDayView.setText(nb_day);
+
         TextView dateView = (TextView) getView().findViewById(R.id.det_date);
-        String date = "du " + from + "\nau " + to;
+        String date = toDateFr(from);
         dateView.setText(date);
 
         TextView descView = (TextView) getView().findViewById(R.id.det_desc);
@@ -116,7 +134,7 @@ public class DetailFragment extends Fragment {
         String kms = String.format("%.0f", calculKms());
         TextView kmsView = (TextView) getView().findViewById(R.id.det_kms);
         if (kms.matches("0")) {
-            kmsView.setText("");
+            kmsView.setVisibility(View.GONE);
         } else {
             kmsView.setText(kms + " km");
         }
@@ -169,6 +187,15 @@ public class DetailFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    private int dayBetweenStrDates (String str_d1, String str_d2) throws Exception {
+
+        Date date1 = new SimpleDateFormat("yyyy/MM/dd").parse(str_d1);
+        Date date2 = new SimpleDateFormat("yyyy/MM/dd").parse(str_d2);
+        int diff_in_day = (int) TimeUnit.MILLISECONDS.toDays(Math.abs(date1.getTime() - date2.getTime()));
+
+        return diff_in_day;
+    }
+
     private void openDetails (Step step) {
 
         StepDetailFragment stepDetailFragment = new StepDetailFragment();
@@ -207,4 +234,52 @@ public class DetailFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
+    public String toDateFr(String date) {
+
+        String[] date_array = date.split("/");
+        String year = date_array[0];
+        String month = date_array[1];
+        int day = Integer.parseInt(date_array[2]);
+
+        switch (month) {
+            case "01":
+                month = "Janvier";
+                break;
+            case "02":
+                month = "Février";
+                break;
+            case "03":
+                month = "Mars";
+                break;
+            case "04":
+                month = "Avril";
+                break;
+            case "05":
+                month = "Mai";
+                break;
+            case "06":
+                month = "Juin";
+                break;
+            case "07":
+                month = "Juillet";
+                break;
+            case "08":
+                month = "Août";
+                break;
+            case "09":
+                month = "Septembre";
+                break;
+            case "10":
+                month = "Octobre";
+                break;
+            case "11":
+                month = "Novembre";
+                break;
+            case "12":
+                month = "Décembre";
+                break;
+        }
+        String day_str = day < 10 ? "début " : day > 20 ? "fin " : "";
+        return day_str + month + " " + year;
+    }
 }
