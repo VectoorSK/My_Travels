@@ -102,7 +102,6 @@ public class TravelFragment extends Fragment {
     }
 
     private void openDetails (Travel travel) {
-
         DetailFragment detailFragment = new DetailFragment();
         Bundle arguments = new Bundle();
         arguments.putString( "id" , travel.getId().toString());

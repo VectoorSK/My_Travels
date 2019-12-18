@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activity.ui.travel.DetailFragment;
 import com.example.myapplication.model.Border;
 import com.example.myapplication.model.Coord;
 import com.example.myapplication.model.Step;
@@ -27,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,14 +72,21 @@ public class MapFragment extends Fragment {
                 travelBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        drawTravels(travelList);
+                        drawTravels();
                     }
                 });
                 ImageView countryBtn = (ImageView) getView().findViewById(R.id.btn_visited);
                 countryBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        drawCountries(travelList, borderList);
+                        drawCountries();
+                    }
+                });
+                Button allCountryBtn = (Button) getView().findViewById(R.id.btn_all);
+                allCountryBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        drawAllCountries();
                     }
                 });
             }
@@ -113,7 +124,7 @@ public class MapFragment extends Fragment {
             public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
                 progressDialog.dismiss();
                 travelList = response.body();
-                drawTravels(travelList);
+                drawTravels();
             }
 
             @Override
@@ -126,32 +137,37 @@ public class MapFragment extends Fragment {
         });
     }
 
-    private void drawTravels(List<Travel> travelList) {
+    private void drawTravels() {
         map.clear();
         for (final Travel travel : travelList) {
             Step origin = travel.getSteps_array().get(0);
             LatLng originLatLng = new LatLng(origin.getLat(), origin.getLng());
 
             if (travel.getSteps_array().size() == 1) {
-                map.addCircle(new CircleOptions().clickable(true).center(originLatLng).radius(10000).strokeColor(0x80ff0000).fillColor(0x80ff0000));
+                CircleOptions options = new CircleOptions().clickable(true).center(originLatLng).radius(10000).strokeColor(0x80ff0000).fillColor(0x80ff0000);
+                Circle circle = map.addCircle(options);
+                String id = String.valueOf(travel.getId());
+                circle.setTag(id);
                 map.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
                     @Override
                     public void onCircleClick(Circle circle) {
-                        openDetails(travel.getCountry());
+                        openDetails(circle.getTag().toString());
                     }
                 });
             } else {
-                PolylineOptions polyline = new PolylineOptions().clickable(true).color(0x80ff0000);
+                PolylineOptions options = new PolylineOptions().clickable(true).color(0x80ff0000);
                 for (Step step : travel.getSteps_array()) {
                     LatLng latlng = new LatLng(step.getLat(), step.getLng());
-                    polyline.add(latlng);
+                    options.add(latlng);
                 }
-                polyline.add(originLatLng);
-                map.addPolyline(polyline);
+                options.add(originLatLng);
+                Polyline polyline = map.addPolyline(options);
+                String id = String.valueOf(travel.getId());
+                polyline.setTag(id);
                 map.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener() {
                     @Override
                     public void onPolylineClick(Polyline polyline) {
-                        openDetails(travel.getCountry());
+                        openDetails(polyline.getTag().toString());
                     }
                 });
             }
@@ -159,7 +175,7 @@ public class MapFragment extends Fragment {
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(0,0), 0));
     }
 
-    private void drawCountries(List<Travel> travelList, List<Border> borderList) {
+    private void drawCountries() {
         map.clear();
         List<String> drawed = new ArrayList<>();
         for (Travel travel : travelList) {
@@ -194,6 +210,31 @@ public class MapFragment extends Fragment {
         }
     }
 
-    private void openDetails (String country) {
+
+    private void drawAllCountries() {
+        map.clear();
+        for (Border border : borderList) {
+            PolygonOptions polygon = new PolygonOptions().clickable(true);
+            for (Coord point : border.getBorders()) {
+                LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
+                polygon.add(latLng);
+            }
+            polygon.fillColor(0x80F44336).strokeColor(0xFFF44336);
+            map.addPolygon(polygon);
+        }
+    }
+
+    private void openDetails (String id) {
+        DetailFragment detailFragment = new DetailFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString( "id" , id);
+        detailFragment.setArguments(arguments);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment, detailFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+        //BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.nav_view);
+        //bottomNavigationView.setSelectedItemId(R.id.navigation_travel);
     }
 }

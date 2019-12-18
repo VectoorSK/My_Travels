@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </fragment>
-    <!-- TODO: test change/remove tools:oontext -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,16 +25,20 @@
             android:id="@+id/btn_map"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@mipmap/ic_map_btn_travel_round"
-            android:text="Voyages" />
+            android:src="@mipmap/ic_map_btn_travel_round" />
 
         <ImageView
             android:id="@+id/btn_visited"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="6dp"
-            android:src="@mipmap/ic_map_btn_country_round"
-            android:text="Pays" />
+            android:src="@mipmap/ic_map_btn_country_round" />
+
+        <Button
+            android:id="@+id/btn_all"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="all" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
