@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,14 +40,9 @@ public class DetailFragment extends Fragment {
     private StepsAdapter adapter;
     private RecyclerView recyclerView;
     private List<Step> datalist;
-    ProgressDialog progressDialog;
+    //ProgressDialog progressDialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        //int id_step = getIntent().getIntExtra("id", 0);
-        Bundle arguments = getArguments();
-        int id_step = Integer.parseInt(arguments.getString("id"));
-        loadStep(id_step);
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
         return root;
     }
@@ -54,6 +50,9 @@ public class DetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle arguments = getArguments();
+        int id_step = Integer.parseInt(arguments.getString("id"));
+        loadStep(id_step);
         ImageView map_btn = (ImageView) getView().findViewById(R.id.travel_map_btn);
         map_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,16 +64,14 @@ public class DetailFragment extends Fragment {
 
 
     private void loadStep(final int id) {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+        final ProgressBar progressBar = getView().findViewById(R.id.progress_circular);
         // Create handle for the RetrofitInstance interface
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Travel>> call = service.getAllTravels();
         call.enqueue(new Callback<List<Travel>>() {
             @Override
             public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 datalist = response.body().get(id).getSteps_array();
                 generateSteps(datalist);
 
@@ -88,9 +85,7 @@ public class DetailFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Travel>> call, Throwable t) {
-                System.out.println(call);
-                System.out.println(t);
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -99,7 +94,7 @@ public class DetailFragment extends Fragment {
     private void showDetails (String name, String flag, String from, String to, String desc) {
 
         TextView nameView = (TextView) getView().findViewById(R.id.det_name);
-        nameView.setText(name);
+        nameView.setText(name.toUpperCase());
 
         TextView dateView = (TextView) getView().findViewById(R.id.det_date);
         dateView.setText(toDateFr(from));

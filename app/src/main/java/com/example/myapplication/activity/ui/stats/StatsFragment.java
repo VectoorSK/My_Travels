@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,22 +41,17 @@ public class StatsFragment extends Fragment {
 
     private List<Country> countryList;
     private List<Travel> travelList;
-    ProgressDialog progressDialog;
+    ProgressBar progressBar;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        loadCountry();
-
         View root = inflater.inflate(R.layout.fragment_stats, container, false);
+        progressBar = root.findViewById(R.id.progress_circular);
+        loadCountry(root);
         return root;
     }
 
-    public void loadCountry() {
-
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+    public void loadCountry(View view) {
 
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Country>> call = service.getAllCountries();
@@ -68,7 +64,7 @@ public class StatsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Country>> call, Throwable t) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -80,14 +76,14 @@ public class StatsFragment extends Fragment {
         call.enqueue(new Callback<List<Travel>>() {
             @Override
             public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 travelList = response.body();
                 drawView();
             }
 
             @Override
             public void onFailure(Call<List<Travel>> call, Throwable t) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -156,19 +152,21 @@ public class StatsFragment extends Fragment {
         }
 
         // Total pays visités
-        TextView pays_prct = (TextView) getView().findViewById(R.id.stat_percent);
+        TextView pays_prct = getView().findViewById(R.id.stat_percent);
         pays_prct.setText(String.valueOf(all.size()));
 
         // Total distance parcouru
-        TextView tot_dist = (TextView) getView().findViewById(R.id.stat_dist);
-        tot_dist.setText(String.valueOf(Math.round(calculTotalDist())) + " km");
+        TextView tot_dist = getView().findViewById(R.id.stat_dist);
+        String tot_dist_str = Math.round(calculTotalDist()) + " km";
+        tot_dist.setText(tot_dist_str);
 
         // Distance Max atteinte
-        TextView farest_dist = (TextView) getView().findViewById(R.id.stat_farest_pnt);
-        farest_dist.setText(calculMostFar()[3] + " km");
+        TextView farest_dist = getView().findViewById(R.id.stat_farest_pnt);
+        String farest_dist_str = calculMostFar()[3] + " km";
+        farest_dist.setText(farest_dist_str);
 
         // Total temps en voyage
-        TextView time_spend = (TextView) getView().findViewById(R.id.stat_time);
+        TextView time_spend = getView().findViewById(R.id.stat_time);
         String time = "";
         try {
             time = calculTimeSpend();
@@ -184,7 +182,8 @@ public class StatsFragment extends Fragment {
 
         // Pays le plus visité (nombre)
         TextView most_visited = (TextView) getView().findViewById(R.id.stat_most_visited);
-        most_visited.setText(calculMostVisited()[0] + "\n(" + calculMostVisited()[2] + " fois)");
+        String most_visited_str = calculMostVisited()[0] + "\n(" + calculMostVisited()[2] + " fois)";
+        most_visited.setText(most_visited_str);
         ImageView most_visited_icon = (ImageView) getView().findViewById(R.id.stat_ic_most_visited);
         picasso.load(calculMostVisited()[1])
                 .placeholder((R.drawable.ic_launcher_background))
@@ -192,18 +191,20 @@ public class StatsFragment extends Fragment {
                 .into(most_visited_icon);
 
         // Pays avec le plus de distance
-        TextView most_dist = (TextView) getView().findViewById(R.id.stat_most_dist);
-        most_dist.setText(calculMostDist()[0] + "\n(" + calculMostDist()[2] + " km)");
-        ImageView most_dist_icon = (ImageView) getView().findViewById(R.id.stat_ic_most_dist);
+        TextView most_dist = getView().findViewById(R.id.stat_most_dist);
+        String most_dist_str = calculMostDist()[0] + "\n(" + calculMostDist()[2] + " km)";
+        most_dist.setText(most_dist_str);
+        ImageView most_dist_icon = getView().findViewById(R.id.stat_ic_most_dist);
         picasso.load(calculMostDist()[1])
                 .placeholder((R.drawable.ic_launcher_background))
                 .error(R.drawable.ic_launcher_background)
                 .into(most_dist_icon);
 
         // Pays le plus loin
-        TextView most_far = (TextView) getView().findViewById(R.id.stat_most_far);
-        most_far.setText(calculMostFar()[0] + "\n(" + calculMostFar()[1] + ")");
-        ImageView most_far_icon = (ImageView) getView().findViewById(R.id.stat_ic_most_far);
+        TextView most_far = getView().findViewById(R.id.stat_most_far);
+        String most_far_str = calculMostFar()[0] + "\n(" + calculMostFar()[1] + ")";
+        most_far.setText(most_far_str);
+        ImageView most_far_icon = getView().findViewById(R.id.stat_ic_most_far);
         picasso.load(calculMostFar()[2])
                 .placeholder((R.drawable.ic_launcher_background))
                 .error(R.drawable.ic_launcher_background)
@@ -218,50 +219,67 @@ public class StatsFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        TextView most_time_spend = (TextView) getView().findViewById(R.id.stat_most_time);
-        most_time_spend.setText(most_time_count + "\n(" + most_time_day + " jours)");
-        ImageView most_time_icon = (ImageView) getView().findViewById(R.id.stat_ic_most_time);
+        TextView most_time_spend = getView().findViewById(R.id.stat_most_time);
+        String most_time_str = most_time_count + "\n(" + most_time_day + " jours)";
+        most_time_spend.setText(most_time_str);
+        ImageView most_time_icon = getView().findViewById(R.id.stat_ic_most_time);
         picasso.load(most_time_flag)
                 .placeholder((R.drawable.ic_launcher_background))
                 .error(R.drawable.ic_launcher_background)
                 .into(most_time_icon);
 
-        TextView eur_prct = (TextView) getView().findViewById(R.id.stat_eur_percent);
-        eur_prct.setText(String.valueOf(eur.size()) + "/" + String.valueOf(tot_eur));
-        TextView afr_prct = (TextView) getView().findViewById(R.id.stat_afr_percent);
-        afr_prct.setText(String.valueOf(afr.size()) + "/" + String.valueOf(tot_afr));
-        TextView asie_prct = (TextView) getView().findViewById(R.id.stat_asie_percent);
-        asie_prct.setText(String.valueOf(asie.size()) + "/" + String.valueOf(tot_asie));
-        TextView amn_prct = (TextView) getView().findViewById(R.id.stat_amn_percent);
-        amn_prct.setText(String.valueOf(amn.size()) + "/" + String.valueOf(tot_amn));
-        TextView ams_prct = (TextView) getView().findViewById(R.id.stat_ams_percent);
-        ams_prct.setText(String.valueOf(ams.size()) + "/" + String.valueOf(tot_ams));
-        TextView oce_prct = (TextView) getView().findViewById(R.id.stat_oce_percent);
-        oce_prct.setText(String.valueOf(oce.size()) + "/" + String.valueOf(tot_oce));
-        TextView ant_prct = (TextView) getView().findViewById(R.id.stat_ant_percent);
-        ant_prct.setText(String.valueOf(ant.size()) + "/" + String.valueOf(tot_ant));
+        TextView eur_prct = getView().findViewById(R.id.stat_eur_percent);
+        String eur_str = eur.size() + "/" + tot_eur;
+        eur_prct.setText(eur_str);
+        TextView afr_prct = getView().findViewById(R.id.stat_afr_percent);
+        String afr_str = afr.size() + "/" + tot_afr;
+        afr_prct.setText(afr_str);
+        TextView asie_prct = getView().findViewById(R.id.stat_asie_percent);
+        String asie_str = asie.size() + "/" + tot_asie;
+        asie_prct.setText(asie_str);
+        TextView amn_prct = getView().findViewById(R.id.stat_amn_percent);
+        String amn_str = amn.size() + "/" + tot_amn;
+        amn_prct.setText(amn_str);
+        TextView ams_prct = getView().findViewById(R.id.stat_ams_percent);
+        String ams_str = ams.size() + "/" + tot_ams;
+        ams_prct.setText(ams_str);
+        TextView oce_prct = getView().findViewById(R.id.stat_oce_percent);
+        String oce_str = oce.size() + "/" + tot_oce;
+        oce_prct.setText(oce_str);
+        TextView ant_prct = getView().findViewById(R.id.stat_ant_percent);
+        String ant_str = ant.size() + "/" + tot_ant;
+        ant_prct.setText(ant_str);
 
-        int[] arr_nb_cont = { eur.size(), afr.size(), asie.size(), amn.size(), ams.size(), oce.size(), ant.size() };
-        String[] arr_title_cont = { "Europe", "Afrique", "Asie", "Amérique du Nord", "Amérique du Sud", "Océanie", "Antartique" };
-        int[] arr_clr_cont = { 0xff3b5998, 0xffffd355, 0xffff9466, 0xfff44336, 0xff0392cf, 0xff028900, 0xffffffff };
-        drawContinentChart(all.size(), arr_nb_cont, arr_title_cont, arr_clr_cont);
+        drawContinentChart();
     }
 
-    private void drawContinentChart(int nb_tot, int[] arr_nb_cont, String[] arr_title_cont, int[] arr_clr_cont) {
+    private void drawContinentChart() {
+        int eur = 0, afr = 0, asie = 0, amn = 0, ams = 0, oce = 0, ant = 0, tot = 0;
+        for (Travel travel : travelList) {
+            eur = travel.getContinent().matches("Europe") ? eur + 1 : eur;
+            afr = travel.getContinent().matches("Afrique") ? afr + 1 : afr;
+            asie = travel.getContinent().matches("Asie") ? asie + 1 : asie;
+            amn = travel.getContinent().matches("Amerique du Nord") ? amn + 1 : amn;
+            ams = travel.getContinent().matches("Amerique du Sud") ? ams + 1 : ams;
+            oce = travel.getContinent().matches("Océanie") ? oce + 1 : oce;
+            ant = travel.getContinent().matches("Antartique") ? ant + 1 : ant;
+            tot++;
+        }
+        int[] color_cont = { 0xff3b5998, 0xffffd355, 0xffff9466, 0xfff44336, 0xff0392cf, 0xff028900, 0xffffffff };
+        int[] nb_cont = { eur, afr, asie, amn, ams, oce, ant };
         PieChartView pieChartView = getView().findViewById(R.id.stat_chart);
         List<SliceValue> pieData = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            if (arr_nb_cont[i] != 0) {
-                double percent = arr_nb_cont[i] * 100 / nb_tot;
-                //int colorID = getResources().getIdentifier("bluePalette" + id, "color", getPackageName());
-                SliceValue slice = new SliceValue((float) percent, arr_clr_cont[i]);
-                pieData.add(slice.setLabel(arr_title_cont[i]));
+            if (nb_cont[i] != 0) {
+                float percent = nb_cont[i] * 100 / tot;
+                SliceValue slice = new SliceValue(percent, color_cont[i]).setLabel(String.valueOf(nb_cont[i]));
+                pieData.add(slice);
             }
         }
         PieChartData pieChartData = new PieChartData(pieData);
         pieChartData.setHasLabels(true).setValueLabelBackgroundEnabled(false);
         pieChartData.setValueLabelsTextColor(0xff000000);
-        //pieChartData.setHasCenterCircle(true).setCenterText1("Répartition").setCenterText1FontSize(20);
+        pieChartData.setHasCenterCircle(true);
         pieChartView.setPieChartData(pieChartData);
     }
 

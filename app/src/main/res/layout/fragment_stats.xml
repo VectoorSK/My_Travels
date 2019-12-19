@@ -333,7 +333,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="45dp"
-            android:text="x/x"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/stat_img_map"
             app:layout_constraintStart_toStartOf="@+id/stat_img_map"
@@ -343,7 +342,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
-            android:text="x/x"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/stat_img_map"
             app:layout_constraintStart_toStartOf="@+id/stat_img_map"
@@ -354,7 +352,6 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="80dp"
             android:layout_marginTop="45dp"
-            android:text="x/x"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/stat_img_map"
             app:layout_constraintTop_toTopOf="@+id/stat_img_map" />
@@ -364,7 +361,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="65dp"
             android:layout_marginLeft="50dp"
-            android:text="x/x"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="@+id/stat_img_map"
             app:layout_constraintTop_toTopOf="@+id/stat_img_map" />
@@ -374,7 +370,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
             android:layout_marginLeft="95dp"
-            android:text="x/x"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="@+id/stat_img_map"
             app:layout_constraintTop_toTopOf="@+id/stat_img_map" />
@@ -384,7 +379,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:layout_marginRight="45dp"
-            android:text="x/x"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/stat_img_map"
             app:layout_constraintBottom_toBottomOf="@+id/stat_img_map" />
@@ -392,7 +386,6 @@
             android:id="@+id/stat_ant_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="x/x"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="@+id/stat_img_map"
             app:layout_constraintEnd_toEndOf="@+id/stat_img_map"
@@ -417,6 +410,143 @@
             app:layout_constraintEnd_toEndOf="@+id/stat_img_map"
             app:layout_constraintStart_toStartOf="@+id/stat_img_map"
             app:layout_constraintTop_toBottomOf="@+id/stat_repart_title" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintTop_toBottomOf="@+id/stat_chart"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/leg_eur_ic"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="#3b5998"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <ImageView
+                    android:id="@+id/leg_afr_ic"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="#ffd355"
+                    app:layout_constraintTop_toBottomOf="@id/leg_eur_ic"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <ImageView
+                    android:id="@+id/leg_asie_ic"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="#ff9466"
+                    app:layout_constraintTop_toBottomOf="@id/leg_afr_ic"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="Europe"
+                    app:layout_constraintTop_toTopOf="@id/leg_eur_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/leg_eur_ic"
+                    app:layout_constraintStart_toEndOf="@id/leg_eur_ic" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="Afrique"
+                    app:layout_constraintTop_toTopOf="@id/leg_afr_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/leg_afr_ic"
+                    app:layout_constraintStart_toEndOf="@id/leg_afr_ic" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="Asie"
+                    app:layout_constraintTop_toTopOf="@id/leg_asie_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/leg_asie_ic"
+                    app:layout_constraintStart_toEndOf="@id/leg_asie_ic" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+                <ImageView
+                    android:id="@+id/leg_amn_ic"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="#f44336"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <ImageView
+                    android:id="@+id/leg_ams_ic"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="#0392cf"
+                    app:layout_constraintTop_toBottomOf="@id/leg_amn_ic"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <ImageView
+                    android:id="@+id/leg_oce_ic"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:background="#028900"
+                    app:layout_constraintTop_toBottomOf="@id/leg_ams_ic"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="Amérique du nord"
+                    app:layout_constraintTop_toTopOf="@id/leg_amn_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/leg_amn_ic"
+                    app:layout_constraintStart_toEndOf="@id/leg_amn_ic" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="Amérique du sud"
+                    app:layout_constraintTop_toTopOf="@id/leg_ams_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/leg_ams_ic"
+                    app:layout_constraintStart_toEndOf="@id/leg_ams_ic" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="Océanie"
+                    app:layout_constraintTop_toTopOf="@id/leg_oce_ic"
+                    app:layout_constraintBottom_toBottomOf="@id/leg_oce_ic"
+                    app:layout_constraintStart_toEndOf="@id/leg_oce_ic" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

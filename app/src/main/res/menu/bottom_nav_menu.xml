@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/navigation_travel"
-        android:icon="@drawable/ic_flight_takeoff_black_24dp"
+        android:icon="@drawable/ic_tab_travel_24dp"
         android:title="@string/title_travel" />
 
     <item
         android:id="@+id/navigation_map"
-        android:icon="@drawable/ic_map_black_24dp"
+        android:icon="@drawable/ic_tab_map_24dp"
         android:title="@string/title_map" />
 
     <item
         android:id="@+id/navigation_stats"
-        android:icon="@drawable/ic_stats_black_24dp"
+        android:icon="@drawable/ic_tab_stats_24dp"
         android:title="@string/title_stats" />
 
 </menu>

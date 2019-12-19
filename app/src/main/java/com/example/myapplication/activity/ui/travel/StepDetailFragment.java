@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,19 +37,20 @@ public class StepDetailFragment extends Fragment {
 
     private ImgAdapter adapter;
     private RecyclerView recyclerView;
+    private String title;
     private List<Img> datalist;
-    ProgressDialog progressDialog;
+    //ProgressDialog progressDialog;
     private double latitude;
     private double longitude;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        Bundle arg = getArguments();
-        int id_travel = Integer.parseInt(arg.getString("travel_id"));
-        int id_step = Integer.parseInt(arg.getString("step_id"));
-        loadImgs(id_travel, id_step);
-
         View root = inflater.inflate(R.layout.fragment_step_detail, container, false);
+
+        int id_travel = Integer.parseInt(getArguments().getString("travel_id"));
+        int id_step = Integer.parseInt(getArguments().getString("step_id"));
+        loadImgs(root, id_travel, id_step);
+
         return root;
     }
 
@@ -64,19 +66,20 @@ public class StepDetailFragment extends Fragment {
         });
     }
 
-    private void loadImgs(final int id_travel, final int id_step) {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+    private void loadImgs(View view, final int id_travel, final int id_step) {
+
+        final ProgressBar progressBar = view.findViewById(R.id.progress_circular);
+
         // Create handle for the RetrofitInstance interface
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Travel>> call = service.getAllTravels();
         call.enqueue(new Callback<List<Travel>>() {
             @Override
             public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 Step step = response.body().get(id_travel).getSteps_array().get(id_step);
                 datalist = step.getPictures();
+                title = step.getCity();
                 generateImgs(datalist);
 
                 String name = step.getCity();
@@ -90,9 +93,7 @@ public class StepDetailFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Travel>> call, Throwable t) {
-                System.out.println(call);
-                System.out.println(t);
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -111,7 +112,7 @@ public class StepDetailFragment extends Fragment {
 
         ImageView step_icon = (ImageView) getView().findViewById(R.id.step_icon);
         picasso.load(img)
-                .placeholder((R.drawable.ic_launcher_background))
+                .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
                 .into(step_icon);
     }
@@ -122,7 +123,7 @@ public class StepDetailFragment extends Fragment {
         adapter = new ImgAdapter(getContext(), list, new ImgAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Img img) {
-                fullscreen(img);
+                openFullscreen(img);
             }
         });
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
@@ -130,10 +131,11 @@ public class StepDetailFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void fullscreen(Img img) {
+    private void openFullscreen(Img img) {
 
         FullscreenImgFragment fullscreenImgFragment = new FullscreenImgFragment();
         Bundle arguments = new Bundle();
+        arguments.putString( "title" , title);
         arguments.putString( "url" , img.getUrl());
         arguments.putString( "caption" , img.getCaption());
         fullscreenImgFragment.setArguments(arguments);

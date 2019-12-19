@@ -33,10 +33,14 @@ public class FullscreenImgFragment extends Fragment {
         builder.downloader(new OkHttp3Downloader(getContext()));
         Picasso picasso = builder.build();
 
+        String title = getArguments().getString("title");
+        TextView titleView = (TextView) getView().findViewById(R.id.full_title);
+        titleView.setText(title);
+
         String url = getArguments().getString("url");
         ImageView imgView = (ImageView) getView().findViewById(R.id.full_img);
         picasso.load(url)
-                .placeholder((R.drawable.ic_launcher_background))
+                .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
                 .into(imgView);
 

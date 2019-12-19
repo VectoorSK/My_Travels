@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +35,9 @@ public class TravelFragment extends Fragment {
     private MyAdapter adapter;
     private RecyclerView recyclerView;
     private List<Travel> datalist;
-    ProgressDialog progressDialog;
+    //ProgressDialog progressDialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        loadTravelList();
 
         View root = inflater.inflate(R.layout.fragment_travel, container, false);
         Button button = (Button) root.findViewById(R.id.sort_button);
@@ -50,14 +49,13 @@ public class TravelFragment extends Fragment {
                 sort_by();
             }
         });
+        loadTravelList(root);
         return root;
     }
 
-    private void loadTravelList() {
+    private void loadTravelList(View view) {
 
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
+        final ProgressBar progressBar = view.findViewById(R.id.progress_circular);
 
         // Create handle for the RetrofitInstance interface
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
@@ -65,12 +63,12 @@ public class TravelFragment extends Fragment {
         call.enqueue(new Callback<List<Travel>>() {
             @Override
             public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 datalist = response.body();
 
                 Collections.sort(datalist, new Comparator<Travel>() {
-                    @Override
-                    public int compare(Travel lhs, Travel rhs) {
+                        @Override
+                        public int compare(Travel lhs, Travel rhs) {
                         return lhs.getDate_from().compareTo(rhs.getDate_from());
                     }
                 });
@@ -79,9 +77,7 @@ public class TravelFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Travel>> call, Throwable t) {
-                System.out.println(call);
-                System.out.println(t);
-                progressDialog.dismiss();
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Something went wrong... Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
