@@ -1,4 +1,4 @@
-package com.example.myapplication.activity.ui.visited;
+package com.example.myapplication.activity.ui.stats;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -36,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VisitedFragment extends Fragment {
+public class StatsFragment extends Fragment {
 
     private List<Country> countryList;
     private List<Travel> travelList;
@@ -47,7 +47,7 @@ public class VisitedFragment extends Fragment {
 
         loadCountry();
 
-        View root = inflater.inflate(R.layout.fragment_visited, container, false);
+        View root = inflater.inflate(R.layout.fragment_stats, container, false);
         return root;
     }
 

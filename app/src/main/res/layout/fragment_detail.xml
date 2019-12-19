@@ -21,7 +21,7 @@
         android:layout_marginTop="13dp"
         android:layout_marginLeft="13dp"
         android:onClick="openTravelMaps"
-        android:src="@drawable/ic_place_lightblue_24dp"
+        app:srcCompat="@drawable/ic_location_24dp"
         android:elevation="2dp"
         android:text="map"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,66 +37,88 @@
         android:textSize="28sp"
         android:elevation="2dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/travel_map_btn" />
-    <TextView
-        android:id="@+id/det_nb_step"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="étapes"
-        android:textSize="16sp"
-        android:textColor="@color/colorPrimaryDark"
-        android:gravity="center_vertical"
-        android:elevation="2dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/det_name"
-        app:layout_constraintEnd_toStartOf="@id/det_kms" />
-    <TextView
-        android:id="@+id/det_kms"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginRight="16dp"
-        android:text="km"
-        android:textSize="16sp"
-        android:textColor="@color/colorPrimaryDark"
-        android:gravity="center_vertical"
-        android:elevation="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/det_flag"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="flag"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintStart_toEndOf="@+id/det_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_bar" />
-
-
-
-    <TextView
-        android:id="@+id/det_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="date"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintEnd_toStartOf="@+id/det_flag"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_bar" />
-    <TextView
-        android:id="@+id/det_nb_day"
-        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/main_det"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="jours"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintEnd_toStartOf="@+id/det_flag"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/det_date" />
+        app:layout_constraintTop_toBottomOf="@id/top_bar"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3" >
+            <ImageView
+                android:id="@+id/det_ic_date"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="8dp"
+                app:srcCompat="@drawable/ic_calendar_24dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/det_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="date"
+                android:textSize="14sp"
+                app:layout_constraintTop_toTopOf="@id/det_ic_date"
+                app:layout_constraintBottom_toBottomOf="@id/det_ic_date"
+                app:layout_constraintStart_toEndOf="@id/det_ic_date" />
+            <ImageView
+                android:id="@+id/det_ic_day"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                app:srcCompat="@drawable/ic_calendar_clock_24dp"
+                app:layout_constraintTop_toBottomOf="@id/det_ic_date"
+                app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/det_nb_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="jours"
+                android:textSize="14sp"
+                app:layout_constraintTop_toTopOf="@id/det_ic_day"
+                app:layout_constraintBottom_toBottomOf="@id/det_ic_day"
+                app:layout_constraintStart_toEndOf="@id/det_ic_day" />
+            <ImageView
+                android:id="@+id/det_ic_step"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                app:srcCompat="@drawable/ic_place_lightblue_24dp"
+                app:layout_constraintTop_toBottomOf="@id/det_ic_day"
+                app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/det_step"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="étapes"
+                android:textSize="14sp"
+                app:layout_constraintTop_toTopOf="@id/det_ic_step"
+                app:layout_constraintBottom_toBottomOf="@id/det_ic_step"
+                app:layout_constraintStart_toEndOf="@id/det_ic_step" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/det_flag"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="3"
+            android:src="@mipmap/ic_launcher"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/det_desc"
@@ -111,7 +133,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/det_flag" />
+        app:layout_constraintTop_toBottomOf="@+id/main_det" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/step_recycler_view"

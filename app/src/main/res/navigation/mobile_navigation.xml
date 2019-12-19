@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_stats"
-        android:name="com.example.myapplication.activity.ui.visited.VisitedFragment"
-        android:label="@string/title_visited"
-        tools:layout="@layout/fragment_visited" />
+        android:name="com.example.myapplication.activity.ui.stats.StatsFragment"
+        android:label="@string/title_stats"
+        tools:layout="@layout/fragment_stats" />
 </navigation>

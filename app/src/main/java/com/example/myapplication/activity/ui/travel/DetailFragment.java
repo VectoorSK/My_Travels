@@ -97,12 +97,33 @@ public class DetailFragment extends Fragment {
     }
 
     private void showDetails (String name, String flag, String from, String to, String desc) {
+
         TextView nameView = (TextView) getView().findViewById(R.id.det_name);
         nameView.setText(name);
 
-        TextView stepView = (TextView) getView().findViewById(R.id.det_nb_step);
-        String plural = datalist.size() == 1 ? "" : "s";
-        stepView.setText(datalist.size() + " étape" + plural);
+        TextView dateView = (TextView) getView().findViewById(R.id.det_date);
+        dateView.setText(toDateFr(from));
+
+        TextView dayView = (TextView) getView().findViewById(R.id.det_nb_day);
+        String nb_day = "", plural;
+        try {
+            int nb = dayBetweenStrDates(from, to);
+            plural = nb == 1 ? "" : "s";
+            nb_day = nb + " jour" + plural;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        dayView.setText(nb_day);
+
+        TextView stepView = (TextView) getView().findViewById(R.id.det_step);
+        plural = datalist.size() == 1 ? "" : "s";
+        String step = datalist.size() + " étape" + plural;
+
+        String kms = String.format("%.0f", calculKms());
+        if (!kms.matches("0")) {
+            step += " : " + kms + " km";
+        }
+        stepView.setText(step);
 
         ImageView flagView = (ImageView) getView().findViewById(R.id.det_flag);
         Picasso.Builder builder = new Picasso.Builder(getContext());
@@ -113,31 +134,8 @@ public class DetailFragment extends Fragment {
                 .error(R.drawable.ic_launcher_background)
                 .into(flagView);
 
-        TextView nbDayView = (TextView) getView().findViewById(R.id.det_nb_day);
-        String nb_day = "";
-        try {
-            int nb = dayBetweenStrDates(from, to);
-            plural = nb == 1 ? "" : "s";
-            nb_day = nb + " jour" + plural;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        nbDayView.setText(nb_day);
-
-        TextView dateView = (TextView) getView().findViewById(R.id.det_date);
-        String date = toDateFr(from);
-        dateView.setText(date);
-
         TextView descView = (TextView) getView().findViewById(R.id.det_desc);
         descView.setText(desc);
-
-        String kms = String.format("%.0f", calculKms());
-        TextView kmsView = (TextView) getView().findViewById(R.id.det_kms);
-        if (kms.matches("0")) {
-            kmsView.setVisibility(View.GONE);
-        } else {
-            kmsView.setText(kms + " km");
-        }
     }
 
     private double calculKms() {
@@ -239,7 +237,7 @@ public class DetailFragment extends Fragment {
         String[] date_array = date.split("/");
         String year = date_array[0];
         String month = date_array[1];
-        int day = Integer.parseInt(date_array[2]);
+        //int day = Integer.parseInt(date_array[2]);
 
         switch (month) {
             case "01":
@@ -279,7 +277,7 @@ public class DetailFragment extends Fragment {
                 month = "Décembre";
                 break;
         }
-        String day_str = day < 10 ? "début " : day > 20 ? "fin " : "";
+        String day_str = ""; //day < 10 ? "début " : day > 20 ? "fin " : "";
         return day_str + month + " " + year;
     }
 }

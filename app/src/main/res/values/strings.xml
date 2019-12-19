@@ -17,6 +17,6 @@
     <string name="title_activity_nav_bar">NavBarActivity</string>
     <string name="title_travel">Voyages</string>
     <string name="title_map">Carte</string>
-    <string name="title_visited">Pays visités</string>
+    <string name="title_stats">Statistiques</string>
     <!-- VIEW ACTIVITY -->
 </resources>
