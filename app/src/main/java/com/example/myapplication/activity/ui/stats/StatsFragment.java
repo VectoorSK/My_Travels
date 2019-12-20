@@ -1,6 +1,7 @@
 package com.example.myapplication.activity.ui.stats;
 
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -267,6 +268,7 @@ public class StatsFragment extends Fragment {
         }
         int[] color_cont = { 0xff3b5998, 0xffffd355, 0xffff9466, 0xfff44336, 0xff0392cf, 0xff028900, 0xffffffff };
         int[] nb_cont = { eur, afr, asie, amn, ams, oce, ant };
+        String[] cont = { "eur", "afr", "asie", "amn", "ams", "oce", "ant" };
         PieChartView pieChartView = getView().findViewById(R.id.stat_chart);
         List<SliceValue> pieData = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
@@ -275,10 +277,15 @@ public class StatsFragment extends Fragment {
                 SliceValue slice = new SliceValue(percent, color_cont[i]).setLabel(String.valueOf(nb_cont[i]));
                 pieData.add(slice);
             }
+            if (i < 6) {
+                int id = getResources().getIdentifier("leg_" + cont[i] + "_nb", "id", getContext().getPackageName());
+                TextView textView = getView().findViewById(id);
+                textView.setText(String.valueOf(nb_cont[i]));
+            }
         }
         PieChartData pieChartData = new PieChartData(pieData);
-        pieChartData.setHasLabels(true).setValueLabelBackgroundEnabled(false);
-        pieChartData.setValueLabelsTextColor(0xff000000);
+        pieChartData.setHasLabels(true);
+        pieChartData.setHasLabelsOnlyForSelected(true);
         pieChartData.setHasCenterCircle(true);
         pieChartView.setPieChartData(pieChartData);
     }
