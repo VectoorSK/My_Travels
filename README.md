@@ -1,4 +1,4 @@
-# My_Travels
+# My Travels
 
 ## Présentation de l'application
 
