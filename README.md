@@ -78,12 +78,31 @@ Diagramme circulaire représentant le nombre de voyages par continent.
 
 ### Architecture
 
+Le code java est reparti en 4 dossiers :
+- **activity :**
+contient 2 activités (écran d'accueil et principal) et les fragments qui sont insérés dans l'activité principale. Les fragments sont répartis en 3 sous-dossiers correspondant aux onglets de la navigation (travel / map / stats)
+
+- **adapter :**
+contient les adapters correspondant aux 3 recycler view (Travel / Step / Img)
+
+- **model :**
+contient les classes des différents objets :
+  - Border : objet récupéré dans 'border.json' qui contient une liste de Coord.
+  - Coord : contient latitude et longitude.
+  - Country : objet récupéré dans 'country.json'.
+  - Img : contient un lien image et une description.
+  - Step : contient les infos d'une étape et une liste d'Img.
+  - Travel : contient les infos d'un voyage et une liste de Step.
+
+- **network :** 
+contient GetDataService et RetrofitClientInstance qui permettent de faire les appels de l'API.
+
 ![architecture](https://user-images.githubusercontent.com/48760638/71230900-b6567600-22eb-11ea-862c-81f9039ed136.png)
 
 ### Fonctionnalités
 
 - **Retrofit :**
-Permet de faire des appels @Get sur l'API de MyTravels.
+Permet de faire des appels GET sur l'API de MyTravels.
 
 - **Recycler View & Adapter :**
 Permet d'afficher des listes d'éléments customs de façon dynamique.
