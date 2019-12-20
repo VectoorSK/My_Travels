@@ -79,4 +79,21 @@ Diagramme circulaire représentant le nombre de voyages par continent.
 
 ### Architecture
 
-![architecture](https://user-images.githubusercontent.com/48760638/71230649-cd489880-22ea-11ea-87df-094faee0ece7.png)
+![architecture](https://user-images.githubusercontent.com/48760638/71230900-b6567600-22eb-11ea-862c-81f9039ed136.png)
+
+### Fonctionnalités
+
+- **Retrofit :**
+Permet de faire des appels @Get sur l'API de MyTravels.
+
+- **Recycler View & Adapter :**
+Permet d'afficher des listes d'éléments customs de façon dynamique.
+
+- **Activités & Fragments :** 
+2 activités : écran d'accueil + principal / fragments : insérés dans l'écran principal.
+
+- **Google Map SDK Service :**
+Utilisation de l'API de Google afin d'afficher les cartes et leur contenu (<https://developers.google.com/maps/documentation/android-sdk/intro>).
+
+- **HelloChart :**
+Utilisation de la librairie "HelloChart" permettant d'afficher le diagramme circulaire (<https://github.com/lecho/hellocharts-android>).
