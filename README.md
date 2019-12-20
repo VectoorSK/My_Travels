@@ -8,13 +8,12 @@
 
 ## Détail de l'application
 
-### Écran d'accueil
+### Écran d'accueil & Navigation
 
-S'affiche pendant une seconde au démarrage de l'application.
+L'écran d'accueil s'affiche pendant une seconde au démarrage de l'application.
+Les différents onglets (Voyages/Carte/Statistiques) sont accessibles via la barre de navigation en bas de l'écran.
 
-![0 Loading](https://user-images.githubusercontent.com/48760638/71229256-2281ab80-22e5-11ea-9c8a-ec503044e10b.png)
-
-Les différents onglets sont accessibles via la barre de navigation en bas de l'écran.
+![loading](https://user-images.githubusercontent.com/48760638/71295556-a5097a00-237c-11ea-911c-d4e3c2e9992c.png)
 
 ### Onglet "Voyages"
 
