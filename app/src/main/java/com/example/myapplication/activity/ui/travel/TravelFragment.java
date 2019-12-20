@@ -1,6 +1,5 @@
 package com.example.myapplication.activity.ui.travel;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapter.MyAdapter;
+import com.example.myapplication.adapter.TravelAdapter;
 import com.example.myapplication.model.Travel;
 import com.example.myapplication.network.GetDataService;
 import com.example.myapplication.network.RetrofitClientInstance;
@@ -32,7 +31,7 @@ import retrofit2.Response;
 
 public class TravelFragment extends Fragment {
 
-    private MyAdapter adapter;
+    private TravelAdapter adapter;
     private RecyclerView recyclerView;
     private List<Travel> datalist;
     //ProgressDialog progressDialog;
@@ -86,7 +85,7 @@ public class TravelFragment extends Fragment {
     //Method to generate List of data using RecyclerView with custom adapter
     private void generateDataList(final List<Travel> list) {
         recyclerView = getActivity().findViewById(R.id.my_recycler_view);
-        adapter = new MyAdapter(getContext(), list, new MyAdapter.OnItemClickListener() {
+        adapter = new TravelAdapter(getContext(), list, new TravelAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Travel travel) {
                 openDetails(travel);

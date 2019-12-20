@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import com.example.myapplication.activity.NavBarActivity;
+import com.example.myapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,10 +24,5 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }, 1000);
-    }
-
-    public void letsStart (View view) {
-        Intent intent = new Intent(this, NavBarActivity.class);
-        startActivity(intent);
     }
 }

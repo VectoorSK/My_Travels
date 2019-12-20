@@ -82,13 +82,13 @@ public class MapFragment extends Fragment {
                         drawCountries();
                     }
                 });
-                Button allCountryBtn = (Button) getView().findViewById(R.id.btn_all);
+                /*Button allCountryBtn = (Button) getView().findViewById(R.id.btn_all);
                 allCountryBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         drawAllCountries();
                     }
-                });
+                });*/
             }
         });
         return root;
@@ -124,6 +124,7 @@ public class MapFragment extends Fragment {
             public void onResponse(Call<List<Travel>> call, Response<List<Travel>> response) {
                 progressDialog.dismiss();
                 travelList = response.body();
+                //drawAllCountries();
                 drawTravels();
             }
 

@@ -16,7 +16,7 @@ import com.example.myapplication.model.Step;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder> {
+public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepsViewHolder> {
 
     private List<Step> dataList;
     private Context context;
@@ -27,7 +27,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
     }
     private final OnItemClickListener listener;
 
-    public StepsAdapter(Context context, List<Step> dataList, OnItemClickListener listener) {
+    public StepAdapter(Context context, List<Step> dataList, OnItemClickListener listener) {
         this.context = context;
         this.dataList = dataList;
         this.listener = listener;
@@ -64,7 +64,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
     }
 
     @Override
-    public StepsAdapter.StepsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StepAdapter.StepsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.steps_row_layout, parent, false);
         StepsViewHolder vh = new StepsViewHolder(view);

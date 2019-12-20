@@ -1,6 +1,5 @@
 package com.example.myapplication.activity.ui.travel;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.adapter.StepsAdapter;
+import com.example.myapplication.adapter.StepAdapter;
 import com.example.myapplication.model.Step;
 import com.example.myapplication.model.Travel;
 import com.example.myapplication.network.GetDataService;
@@ -37,7 +36,7 @@ import retrofit2.Response;
 
 public class DetailFragment extends Fragment {
 
-    private StepsAdapter adapter;
+    private StepAdapter adapter;
     private RecyclerView recyclerView;
     private List<Step> datalist;
     //ProgressDialog progressDialog;
@@ -169,7 +168,7 @@ public class DetailFragment extends Fragment {
 
     private void generateSteps(final List<Step> list) {
         recyclerView = getActivity().findViewById(R.id.step_recycler_view);
-        adapter = new StepsAdapter(getContext(), list, new StepsAdapter.OnItemClickListener() {
+        adapter = new StepAdapter(getContext(), list, new StepAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Step step) {
                 openDetails(step);

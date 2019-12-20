@@ -16,7 +16,7 @@ import com.example.myapplication.model.Travel;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> {
+public class TravelAdapter extends RecyclerView.Adapter<TravelAdapter.CustomViewHolder> {
 
     private List<Travel> dataList;
     private Context context;
@@ -27,7 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
     }
     private final OnItemClickListener listener;
 
-    public MyAdapter(Context context, List<Travel> dataList, OnItemClickListener listener) {
+    public TravelAdapter(Context context, List<Travel> dataList, OnItemClickListener listener) {
         this.context = context;
         this.dataList = dataList;
         this.listener = listener;
@@ -67,7 +67,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.CustomViewHolder> 
     }
 
     @Override
-    public MyAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TravelAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.row_layout, parent, false);
         CustomViewHolder vh = new CustomViewHolder(view);
