@@ -99,7 +99,7 @@ contient GetDataService et RetrofitClientInstance qui permettent de faire les ap
 
 ![architecture](https://user-images.githubusercontent.com/48760638/71230900-b6567600-22eb-11ea-862c-81f9039ed136.png)
 
-### Fonctionnalités
+### My Travels utilise/contient :
 
 - **Retrofit :**
 Permet de faire des appels GET sur l'API de MyTravels.
@@ -115,3 +115,5 @@ Utilisation de l'API de Google afin d'afficher les cartes et leur contenu (<http
 
 - **HelloChart :**
 Utilisation de la librairie "HelloChart" permettant d'afficher le diagramme circulaire (<https://github.com/lecho/hellocharts-android>).
+
+**`My Travels`** est ma première application mobile. Je n'avais jamais utilisé **Android Studio** auparavant mais je possédais des notions en Java.
