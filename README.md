@@ -4,7 +4,7 @@
 
 ### Écran d'accueil
 
-Au démarrage de l'application, un écran d'accueil s'affiche puis disparait au boût d'une seconde :
+S'affiche pendant une seconde au démarrage de l'application.
 
 ![0 Loading](https://user-images.githubusercontent.com/48760638/71226371-e6961880-22db-11ea-8ba6-281d92abbae5.png)
 
