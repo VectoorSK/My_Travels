@@ -101,6 +101,12 @@ contient GetDataService et RetrofitClientInstance qui permettent de faire les ap
 
 ### My Travels utilise/contient :
 
+- **API raw GitHub :**
+Contient 3 fichiers JSON :
+  - Border.json : contient les dataset des frontières de chaques pays (afin de les afficher sur Maps)
+  - Countries.json : contient la liste de tous les pays / îles du monde (utilisé pour les statistiques)
+  - Travels.json : contient tous les voyages et leur détails
+
 - **Retrofit :**
 Permet de faire des appels GET sur l'API de MyTravels.
 
@@ -115,5 +121,6 @@ Utilisation de l'API de Google afin d'afficher les cartes et leur contenu (<http
 
 - **HelloChart :**
 Utilisation de la librairie "HelloChart" permettant d'afficher le diagramme circulaire (<https://github.com/lecho/hellocharts-android>).
+
 
 **`My Travels`** est ma première application mobile. Je n'avais jamais utilisé **Android Studio** auparavant mais je possédais des notions en Java.
